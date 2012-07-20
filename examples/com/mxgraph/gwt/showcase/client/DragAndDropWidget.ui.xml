@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.mxgraph.gwt.client.view">
+	<ui:style>
+		.library {
+			border: 1px solid #E5E5E5;
+			border-radius: 5px;
+		}
+		
+		.graph {
+			border: 1px solid #E5E5E5;
+			height: 500px;
+			background-image: url('images/grid.gif');
+		}
+		
+		.libAndGraph {
+			height: 100%;
+		}
+	</ui:style>
+	<g:HTMLPanel styleName="{style.libAndGraph}">
+
+		<g:FlowPanel styleName="{style.library}">
+			<g:Image url="images/icons48/earth.png" ui:field="image1"></g:Image>
+			<g:Image url="images/icons48/server.png" ui:field="image2"></g:Image>
+		</g:FlowPanel>
+		<g:HTMLPanel height="5px" />
+
+		<v:mxGraph ui:field="graph" styleName="{style.graph}"></v:mxGraph>
+
+	</g:HTMLPanel>
+
+</ui:UiBinder> 

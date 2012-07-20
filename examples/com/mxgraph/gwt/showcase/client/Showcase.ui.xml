@@ -1,0 +1,49 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.content {
+			margin: 5px;
+			padding: 3px;
+			border: 1px solid #E5E5E5;
+			border-radius: 5px;
+		}
+		
+		.rightPanel {
+			width: 100%;
+			height: 500px;
+		}
+		
+		.description {
+			margin: 5px;
+			padding: 3px;
+			border: 1px solid #E5E5E5;
+			border-radius: 5px;
+			background-color: #f5f5f5
+		}
+		
+		.examples {
+			padding: 3px;
+			border: 1px solid #E5E5E5;
+			border-radius: 5px;
+			background-color: #f5f5f5
+		}
+	</ui:style>
+	<g:DockLayoutPanel unit="PCT" ui:field="mainPanel">
+		<g:west size="10">
+			<g:FlowPanel ui:field="examples" styleName="{style.examples}">
+			</g:FlowPanel>
+		</g:west>
+		<g:center size="90">
+			<g:DockLayoutPanel unit="PX">
+				<g:north size="35">
+					<g:HTMLPanel styleName="{style.description}">
+						<g:Label ui:field="description" />
+					</g:HTMLPanel>
+				</g:north>
+				<g:center>
+					<g:SimplePanel styleName="{style.content}" ui:field="contentPanel"></g:SimplePanel>
+				</g:center>
+			</g:DockLayoutPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 
