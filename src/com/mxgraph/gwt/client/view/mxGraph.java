@@ -67,6 +67,10 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		boolean invoke(mxICell cell, IsValidSourceCallback old);
 	}
 
+	public static interface IsValidTargetCallback {
+		boolean invoke(mxICell cell, IsValidTargetCallback old);
+	}
+
 	public static interface IsCellEditableCallback {
 		boolean invoke(mxICell cell, IsCellEditableCallback old);
 	}
@@ -106,8 +110,8 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 	 * 
 	 */
 	@SuppressWarnings("unused") private static class DefaultCallback implements GetTooltipForCellCallback, IsCellFoldableCallback, CreateGroupCellCallback,
-			FireMouseEventCallback, ClickCallback, DblClickCallback, IsValidDropTargetCallback, IsValidSourceCallback, IsCellEditableCallback,
-			MoveCellsCallback, ConvertValueToStringCallback, CellLabelChangedCallback, GetEditingValueCallback, IsCellLockedCallback {
+			FireMouseEventCallback, ClickCallback, DblClickCallback, IsValidDropTargetCallback, IsValidSourceCallback, IsValidTargetCallback,
+			IsCellEditableCallback, MoveCellsCallback, ConvertValueToStringCallback, CellLabelChangedCallback, GetEditingValueCallback, IsCellLockedCallback {
 
 		JavaScriptObject graph;
 		JavaScriptObject callback;
@@ -143,6 +147,12 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		}-*/;
 
 		public native boolean invoke(mxICell cell, IsValidSourceCallback old) /*-{
+			var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
+			return this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::callback.apply(this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::graph,
+					[ cellJS ]);
+		}-*/;
+
+		public native boolean invoke(mxICell cell, IsValidTargetCallback old) /*-{
 			var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 			return this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::callback.apply(this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::graph,
 					[ cellJS ]);
@@ -299,6 +309,24 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidSource = funct;
 	}-*/;
+	
+	/**
+	 * Allows user to redefine the behavior of {@link mxGraph#isValidSource(mxICell) }
+	 * 
+	 * @param callback a callback containing a new definition
+	 */
+	public native void setIsValidTargetCallback(IsValidTargetCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidTarget;
+		var oldJ = @com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::new(Lcom/mxgraph/gwt/client/view/mxGraph;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function(cell) {
+			var cellJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cell);
+			return callback.@com.mxgraph.gwt.client.view.mxGraph.IsValidTargetCallback::invoke(Lcom/mxgraph/gwt/client/model/mxICell;Lcom/mxgraph/gwt/client/view/mxGraph$IsValidTargetCallback;)(cellJ, oldJ);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidTarget = funct;
+	}-*/;
+
 
 	/**
 	 * Allows user to redefine the behavior of {@link mxGraph#isCellEditable(mxICell)}
@@ -1799,15 +1827,16 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 	public native void setAllowAutoPanning(boolean value) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).allowAutoPanning = value;
 	}-*/;
-	
+
 	/**
 	 * Returns true if panning via panGraph should be allowed to implement autoscroll if no scrollbars are available in scrollPointToVisible.
+	 * 
 	 * @return
 	 */
 	public native boolean isAllowAutoPanning() /*-{
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).allowAutoPanning;
 	}-*/;
-	
+
 	/**
 	 * Returns the {@link mxPanningManager}
 	 * 
@@ -1817,9 +1846,10 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		var panManJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).panningManager;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(panManJS);
 	}-*/;
-	
+
 	/**
 	 * Returns the {@link mxCellEditor}
+	 * 
 	 * @return
 	 */
 	public native mxCellEditor getCellEditor() /*-{

@@ -1,7 +1,9 @@
 package com.mxgraph.gwt.client.handler;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.NativeEvent;
 import com.mxgraph.gwt.client.model.mxCell;
+import com.mxgraph.gwt.client.model.mxICell;
 import com.mxgraph.gwt.client.util.WrapperUtils;
 import com.mxgraph.gwt.client.util.mxEventSource;
 import com.mxgraph.gwt.client.util.mxImage;
@@ -76,12 +78,55 @@ public class mxConnectionHandler extends mxEventSource {
 	}-*/;
 
 	public static interface mxIFactoryMethod {
-
 		mxCell invoke(mxCell source, mxCell target, String style);
 	}
 
-	private mxConnectionHandler() {}
-	
+	public static interface ConnectCallback {
+		void invoke(mxICell source, mxICell target, NativeEvent evt, mxICell dropTarget, ConnectCallback old);
+	}
+
+	@SuppressWarnings("unused") private static class DefaultCallback implements ConnectCallback {
+
+		JavaScriptObject handler;
+		JavaScriptObject callback;
+
+		public DefaultCallback(mxConnectionHandler handler, JavaScriptObject callback) {
+			this.handler = handler.jso;
+			this.callback = callback;
+		}
+
+		@Override public native void invoke(mxICell source, mxICell target, NativeEvent evt, mxICell dropTarget, ConnectCallback old) /*-{
+			var sourceJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(source);
+			var targetJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(target);
+			var dropTargetJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(dropTarget);
+
+			this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::callback.apply(
+					this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::handler, [ sourceJS, targetJS, evt, dropTargetJS ]);
+
+		}-*/;
+
+	}
+
+	public native void setConnectCallback(ConnectCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).connect;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+		
+		var funct = function(source, target, evt, dropTarget) {
+			var sourceJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(source);
+			var targetJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(target);
+			var dropTargetJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(dropTarget);
+			
+			callback.@com.mxgraph.gwt.client.handler.mxConnectionHandler.ConnectCallback::invoke(Lcom/mxgraph/gwt/client/model/mxICell;Lcom/mxgraph/gwt/client/model/mxICell;Lcom/google/gwt/dom/client/NativeEvent;Lcom/mxgraph/gwt/client/model/mxICell;Lcom/mxgraph/gwt/client/handler/mxConnectionHandler$ConnectCallback;)
+			(sourceJ, targetJ, evt, dropTargetJ, oldJ);
+		};
+		
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).connect = funct;
+		
+	}-*/;
+
+	private mxConnectionHandler() {
+	}
+
 	/**
 	 * Constructs an event handler that connects vertices.
 	 * 
@@ -121,9 +166,10 @@ public class mxConnectionHandler extends mxEventSource {
 		var imageJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(image);
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).connectImage = imageJS;
 	}-*/;
-	
+
 	/**
 	 * Returns true if events are handled. Default is true.
+	 * 
 	 * @return
 	 */
 	public native boolean isEnabled() /*-{
@@ -131,13 +177,14 @@ public class mxConnectionHandler extends mxEventSource {
 	}-*/;
 
 	/**
-	 * Specifies if events are to be handled. 
+	 * Specifies if events are to be handled.
+	 * 
 	 * @param enabled
 	 */
 	public native void setEnabled(boolean enabled) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).enabled = enabled;
 	}-*/;
-	
+
 	/**
 	 * Returns true if target should be created
 	 */
@@ -147,12 +194,11 @@ public class mxConnectionHandler extends mxEventSource {
 
 	/**
 	 * Set true if target should be created, false otherwise
-	 * @param createTarget 
+	 * 
+	 * @param createTarget
 	 */
 	public native void setCreateTarget(boolean createTarget) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createTarget = createTarget;
 	}-*/;
-	
-	
-	
+
 }

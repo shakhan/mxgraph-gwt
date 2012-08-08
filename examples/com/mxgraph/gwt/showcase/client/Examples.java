@@ -25,7 +25,7 @@ public class Examples implements EntryPoint {
 		sc.add(new DynamicLoadingWidget("Dynamic loading", sc));
 		sc.add(new DragAndDropWidget("Drag 'n' Drop", sc));
 		sc.add(new CustomValidDropTargetWidget("Custom Valid Drop Target", sc));
-		sc.add(new CustomValidSourceWidget("Custom Valid Source", sc));
+		sc.add(new CustomValidSourceWidget("Custom Valid Source/Target", sc));
 		sc.add(new CompositeVertexWidget("Composite Vertex", sc));
 		sc.add(new UserObjectWidget("User object as cell value", sc));
 		sc.add(new CustomEditingBox("Custom editing box", sc));
