@@ -18,7 +18,7 @@ public class CustomValidSourceWidget extends AbstractContentWidget {
 
 	public CustomValidSourceWidget(String name, Showcase showcase) {
 		super(name, showcase);
-		description = "Shows how to change the default behaviour of graph in terms of deciding which vertices are connection sources or targets. Drag connections between valid connection sources. 'Invalid source' vertice neither will not start connections and 'Invalid target' will not accept them.";
+		description = "Shows how to change the default behaviour of graph in terms of deciding which vertices are connection sources or targets. Drag connections between valid connection sources. 'Invalid source' vertice will not start connections and 'Invalid target' will not accept them.";
 	}
 
 	@Override public void injectContent(SimplePanel panel) {
