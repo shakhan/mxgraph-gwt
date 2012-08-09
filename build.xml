@@ -1,8 +1,9 @@
-<project name="MxGraph" default="all" basedir=".">
+<project name="MxGraph" default="all" basedir="." >
+	
+	<property environment="env"/>
 
 	<!-- ===================== GWT Environment =========================== -->
 	<property name="gwt.args" value="" />
-	<property name="gwt.sdk" location="c:/Java/gwt-2.4.0" />
 
 	<!-- ===================== Project Environment =========================== -->
 
@@ -19,14 +20,14 @@
 
 	<path id="gwt.class.path">
 		<pathelement location="war/WEB-INF/classes" />
-		<pathelement location="${gwt.sdk}/gwt-user.jar" />
-		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
+		<pathelement location="${env.GWT_HOME}/gwt-user.jar" />
+		<fileset dir="${env.GWT_HOME}" includes="gwt-dev*.jar" />
 	</path>
 
 	<!-- ===================== Java Compiler class path ========================= -->
 
 	<path id="javac.class.path">
-		<fileset dir="${gwt.sdk}" includes="*.jar" />
+		<fileset dir="${env.GWT_HOME}" includes="*.jar" />
 	</path>
 
 	<!-- ============= Compiles the code with GWT compiler ====================== -->
@@ -34,7 +35,7 @@
 	<target name="gwtc">
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
-				<pathelement location="${dist.dir}/mxGraph-gwt-eval.jar" />
+				<pathelement location="${dist.dir}/mxGraph-gwt.jar" />
 				<pathelement location="${examples.dir}" />
 				<path refid="gwt.class.path" />
 			</classpath>
@@ -70,44 +71,17 @@
 
 	<!-- ========= Creates a full version of mxGraph-GWT library ================== -->
 
-	<target name="dist-full" depends="javac">
-		<jar destfile="${dist.dir}/mxGraph-gwt-full.jar">
+	<target name="dist" depends="javac">
+		<jar destfile="${dist.dir}/mxGraph-gwt.jar">
 			<fileset dir="${src.dir}">
-				<exclude name="**/*MxGraph-Eval.gwt.xml" />
+				
 			</fileset>
 			<fileset dir="${javac.dir}">
 			</fileset>
 		</jar>
 	</target>
 
-	<!-- ========= Creates an evaluation version of mxGraph-GWT library ============= -->
-
-	<target name="dist-eval" depends="javac">
-		<copy todir="${dist.dir}/temp">
-			<fileset dir="${src.dir}">
-				<exclude name="**/*MxGraph.gwt.xml" />
-			</fileset>
-		</copy>
-
-		<copy todir="${dist.dir}/temp">
-			<fileset dir="${examples.dir}">
-			</fileset>
-		</copy>
-
-		<!-- Renames the MxGraph-Eval.gwt.xml to MxGraph.gwt.xml so users wouldn't have to make any changes their GWT module xml when upgrading from eval to full version  -->
-		<move file="${dist.dir}/temp/${root.package}/MxGraph-Eval.gwt.xml" tofile="${dist.dir}/temp/${root.package}/MxGraph.gwt.xml" />
-
-		<jar destfile="${dist.dir}/mxGraph-gwt-eval.jar">
-			<fileset dir="${dist.dir}/temp">
-				<exclude name="**/${public.dir}**/*" />
-			</fileset>
-			<fileset dir="${javac.dir}">
-			</fileset>
-		</jar>
-
-		<delete dir="${dist.dir}/temp">
-		</delete>
-	</target>
+	
 
 	<target name="war" depends="gwtc" description="Create a war file">
 		<zip destfile="${build.dir}/Showcase.war" basedir="war" />
@@ -115,6 +89,6 @@
 
 	<!-- ======================== Performs all tasks ================================ -->
 
-	<target name="all" depends="clean,dist-full,dist-eval,war">
+	<target name="all" depends="clean,dist,war">
 	</target>
 </project>
