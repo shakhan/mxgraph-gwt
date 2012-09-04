@@ -71,15 +71,17 @@ import com.mxgraph.gwt.client.view.mxCellState;
  * </blockquote>
  * </p>
  */
-public abstract class mxShape implements IJavaScriptWrapper {
+public abstract class mxShape implements IJavaScriptWrapper
+{
 
 	protected JavaScriptObject jso;
-	
+
 	private native JavaScriptObject createJso() /*-{
 		return $wnd.mxShape();
 	}-*/;
-	
-	public static abstract class globalSettings {
+
+	public static abstract class globalSettings
+	{
 		public native static void setCrisp(boolean crisp) /*-{
 			$wnd.mxShape.prototype.crisp = crisp;
 		}-*/;
@@ -88,17 +90,20 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	/**
 	 * Constructs a new shape.
 	 */
-	public mxShape() {
+	public mxShape()
+	{
 		jso = createJso();
 	}
-	
+
 	@Override
-	public JavaScriptObject getJso() {
+	public JavaScriptObject getJso()
+	{
 		return jso;
 	}
 
 	@Override
-	public void setJso(JavaScriptObject jso) {
+	public void setJso(JavaScriptObject jso)
+	{
 		this.jso = jso;
 	}
 
@@ -164,7 +169,7 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	public native boolean isCrisp() /*-{
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).crisp;
 	}-*/;
-	
+
 	/**
 	 * Returns the global attribute for SVG rendering. It affects all shapes.
 	 * 
@@ -182,7 +187,7 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	public native void setCrisp(boolean crisp) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).crisp = crisp;
 	}-*/;
-	
+
 	/**
 	 *  Sets the special attribute for SVG rendering globally
 	 * 
@@ -255,7 +260,8 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	 * 
 	 * @return list of points
 	 */
-	public List<mxPoint> getPoints() {
+	public List<mxPoint> getPoints()
+	{
 		return WrapperUtils.wrapList(getPointsJS());
 	}
 
@@ -424,40 +430,40 @@ public abstract class mxShape implements IJavaScriptWrapper {
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).destroy();
 	}-*/;
 
-/**
-	 * Applies the style of the given {@link mxCellState} to the shape. This
-	 * implementation assigns the following styles to local fields:
-	 * 
-	 * - {@link mxConstants#STYLE_FILLCOLOR> => fill -
-	 * 
-	 * @link mxConstants#STYLE_GRADIENTCOLOR} => gradient -
-	 *       {@link mxConstants#STYLE_GRADIENT_DIRECTION} => gradientDirection -
-	 *       {@link mxConstants#STYLE_OPACITY} => opacity -
-	 *       {@link mxConstants#STYLE_STROKECOLOR} => stroke -
-	 *       {@link mxConstants#STYLE_STROKEWIDTH} => strokewidth -
-	 *       {@link mxConstants#STYLE_SHADOW} => isShadow -
-	 *       {@link mxConstants#STYLE_DASHED} => isDashed -
-	 *       {@link mxConstants#STYLE_SPACING} => spacing -
-	 *       {@link mxConstants#STYLE_STARTSIZE} => startSize -
-	 *       {@link mxConstants#STYLE_ENDSIZE} => endSize -
-	 *       {@link mxConstants#STYLE_ROUNDED} => isRounded -
-	 *       {@link mxConstants#STYLE_STARTARROW} => startArrow -
-	 *       {@link mxConstants#STYLE_ENDARROW} => endArrow -
-	 *       {@link mxConstants#STYLE_ROTATION} => rotation -
-	 *       {@link mxConstants#STYLE_DIRECTION} => direction
-	 * 
-	 *       This keeps a reference to the <style>. If you need to keep a
-	 *       reference to the cell, you can override this method and store a
-	 *       local reference to state.cell or the {@link mxCellState} itself.
-	 * 
-	 *       Parameters:
-	 * 
-	 *       state - {@link mxCellState} of the corresponding cell.
-	 */
+	/**
+		 * Applies the style of the given {@link mxCellState} to the shape. This
+		 * implementation assigns the following styles to local fields:
+		 * 
+		 * - {@link mxConstants#STYLE_FILLCOLOR> => fill -
+		 * 
+		 * @link mxConstants#STYLE_GRADIENTCOLOR} => gradient -
+		 *       {@link mxConstants#STYLE_GRADIENT_DIRECTION} => gradientDirection -
+		 *       {@link mxConstants#STYLE_OPACITY} => opacity -
+		 *       {@link mxConstants#STYLE_STROKECOLOR} => stroke -
+		 *       {@link mxConstants#STYLE_STROKEWIDTH} => strokewidth -
+		 *       {@link mxConstants#STYLE_SHADOW} => isShadow -
+		 *       {@link mxConstants#STYLE_DASHED} => isDashed -
+		 *       {@link mxConstants#STYLE_SPACING} => spacing -
+		 *       {@link mxConstants#STYLE_STARTSIZE} => startSize -
+		 *       {@link mxConstants#STYLE_ENDSIZE} => endSize -
+		 *       {@link mxConstants#STYLE_ROUNDED} => isRounded -
+		 *       {@link mxConstants#STYLE_STARTARROW} => startArrow -
+		 *       {@link mxConstants#STYLE_ENDARROW} => endArrow -
+		 *       {@link mxConstants#STYLE_ROTATION} => rotation -
+		 *       {@link mxConstants#STYLE_DIRECTION} => direction
+		 * 
+		 *       This keeps a reference to the <style>. If you need to keep a
+		 *       reference to the cell, you can override this method and store a
+		 *       local reference to state.cell or the {@link mxCellState} itself.
+		 * 
+		 *       Parameters:
+		 * 
+		 *       state - {@link mxCellState} of the corresponding cell.
+		 */
 	public native void apply(mxCellState cellState) /*-{
-	var cellStateJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cellState);
-	@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).apply(cellStateJS);
-}-*/;
+		var cellStateJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cellState);
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).apply(cellStateJS);
+	}-*/;
 
 	/**
 	 * Creates a SVG group element and adds the given shape as a child of the element. The child is stored in <innerNode> for later access.
@@ -563,7 +569,8 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	 * @return
 	 */
 	public native String createPoints(String moveCmd, String lineCmd, String curveCmd, boolean isRounded) /*-{
-		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createPoints(moveCmd, lineCmd, curveCmd, isRounded);
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createPoints(moveCmd, lineCmd, curveCmd,
+				isRounded);
 	}-*/;
 
 	/**
@@ -673,7 +680,7 @@ public abstract class mxShape implements IJavaScriptWrapper {
 		var pathJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(path);
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).redrawPath(pathJS, x, y, w, h);
 	}-*/;
-	
+
 	/**
 	 * Sets the stroke color
 	 * @param stroke
@@ -681,7 +688,7 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	public native void setStroke(String stroke) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).stroke = stroke;
 	}-*/;
-	
+
 	/**
 	 * Gets the stroke color
 	 * @param stroke
@@ -690,7 +697,7 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	public native String getStroke() /*-{
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).stroke;
 	}-*/;
-	
+
 	/**
 	 * Sets the dashed flag
 	 * @param dashed
@@ -698,7 +705,7 @@ public abstract class mxShape implements IJavaScriptWrapper {
 	public native void setDashed(boolean dashed) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isDashed = dashed;
 	}-*/;
-	
+
 	/**
 	 * If the line of the shape is dashed or not
 	 * @param dashed
@@ -708,5 +715,15 @@ public abstract class mxShape implements IJavaScriptWrapper {
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isDashed;
 	}-*/;
 
+	/**
+	 * @return
+	 */
+	public native String getFill() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).fill;
+	}-*/;
+
+	public native String setFill(String fill) /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).fill = fill;
+	}-*/;
 
 }

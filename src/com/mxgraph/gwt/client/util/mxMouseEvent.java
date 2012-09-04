@@ -3,6 +3,8 @@ package com.mxgraph.gwt.client.util;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.NativeEvent;
 import com.mxgraph.gwt.client.IJavaScriptWrapper;
+import com.mxgraph.gwt.client.model.mxCell;
+import com.mxgraph.gwt.client.model.mxICell;
 import com.mxgraph.gwt.client.view.mxCellState;
 
 /**
@@ -20,6 +22,12 @@ public class mxMouseEvent implements IJavaScriptWrapper {
 	private native JavaScriptObject createJso(NativeEvent event, JavaScriptObject state) /*-{
 		return new $wnd.mxMouseEvent(event, state);
 	}-*/;
+	
+	public static interface mxIMouseListener<C> {
+		void onMouseUp(C sender, mxMouseEvent event);
+		void onMouseDown(C sender, mxMouseEvent event);
+		void onMouseMove(C sender, mxMouseEvent event);
+	}
 
 	private mxMouseEvent() {
 	}
@@ -132,5 +140,14 @@ public class mxMouseEvent implements IJavaScriptWrapper {
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).consumed;
 	}-*/;
 	
+	
+	/**
+	 * Returns the {@link mxCell} in state is not null.
+	 * @return
+	 */
+	public native mxICell getCell() /*-{
+		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getCell();
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
+	}-*/;
 
 }

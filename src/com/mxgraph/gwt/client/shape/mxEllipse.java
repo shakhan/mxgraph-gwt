@@ -10,13 +10,18 @@ import com.mxgraph.gwt.client.util.mxRectangle;
  * in {@link mxCellRenderer}.
  *
  */
-public class mxEllipse extends mxShape {
+public class mxEllipse extends mxShape
+{
 
 	private native JavaScriptObject createJso(mxRectangle bounds, String fill, String stroke, Integer strokeWidth) /*-{
 		var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(bounds);
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
 		return new $wnd.mxEllipse(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
+
+	private mxEllipse()
+	{
+	}
 
 	/**
 	 * Constructs a new ellipse.
@@ -26,10 +31,11 @@ public class mxEllipse extends mxShape {
 	 * @param stroke String that defines the stroke color.
 	 * @param strokeWidth Optional integer that defines the stroke width. Default is 1.
 	 */
-	public mxEllipse(mxRectangle bounds, String fill, String stroke, Integer strokeWidth) {
+	public mxEllipse(mxRectangle bounds, String fill, String stroke, Integer strokeWidth)
+	{
 		jso = createJso(bounds, fill, stroke, strokeWidth);
 	}
-	
+
 	/**
 	 * Updates the given node to reflect the new <bounds> and <scale>.
 	 * @param node

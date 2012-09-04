@@ -32,74 +32,91 @@ import com.mxgraph.gwt.client.util.mxPanningHandler;
 import com.mxgraph.gwt.client.util.mxPanningManager;
 import com.mxgraph.gwt.client.util.mxRectangle;
 
-public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
+public class mxGraph extends mxEventSource implements HasContextMenuHandlers
+{
 
 	private static mxGraphUiBinder uiBinder = GWT.create(mxGraphUiBinder.class);
 
-	interface mxGraphUiBinder extends UiBinder<Widget, mxGraph> {
+	interface mxGraphUiBinder extends UiBinder<Widget, mxGraph>
+	{
 	}
 
 	/**
 	 * Hook for creating the group cell to hold the given array of {@link mxCellState}
 	 * 
 	 */
-	public static interface CreateGroupCellCallback {
+	public static interface CreateGroupCellCallback
+	{
 		mxICell invoke(List<mxICell> cells, CreateGroupCellCallback old);
 	}
 
-	public static interface FireMouseEventCallback {
+	public static interface FireMouseEventCallback
+	{
 		void invoke(String eventName, mxMouseEvent event, Object sender, FireMouseEventCallback old);
 	}
 
-	public static interface ClickCallback {
+	public static interface ClickCallback
+	{
 		void invoke(mxMouseEvent me, ClickCallback old);
 	}
 
-	public static interface DblClickCallback {
+	public static interface DblClickCallback
+	{
 		void invoke(NativeEvent me, mxICell cell, DblClickCallback old);
 	}
 
-	public static interface IsValidDropTargetCallback {
+	public static interface IsValidDropTargetCallback
+	{
 		boolean invoke(mxICell cell, List<mxICell> cells, NativeEvent event, IsValidDropTargetCallback old);
 	}
 
-	public static interface IsValidSourceCallback {
+	public static interface IsValidSourceCallback
+	{
 		boolean invoke(mxICell cell, IsValidSourceCallback old);
 	}
 
-	public static interface IsValidTargetCallback {
+	public static interface IsValidTargetCallback
+	{
 		boolean invoke(mxICell cell, IsValidTargetCallback old);
 	}
 
-	public static interface IsCellEditableCallback {
+	public static interface IsCellEditableCallback
+	{
 		boolean invoke(mxICell cell, IsCellEditableCallback old);
 	}
 
-	public static interface IsCellFoldableCallback {
+	public static interface IsCellFoldableCallback
+	{
 		boolean invoke(mxICell cell, boolean collapse, IsCellFoldableCallback old);
 	}
 
-	public static interface GetTooltipForCellCallback {
+	public static interface GetTooltipForCellCallback
+	{
 		String invoke(mxICell cell, GetTooltipForCellCallback old);
 	}
 
-	public static interface MoveCellsCallback {
+	public static interface MoveCellsCallback
+	{
 		List<mxICell> invoke(List<mxICell> cells, int dx, int dy, boolean clone, mxICell target, NativeEvent event, MoveCellsCallback old);
 	}
 
-	public static interface ConvertValueToStringCallback {
+	public static interface ConvertValueToStringCallback
+	{
 		String invoke(mxICell cell, ConvertValueToStringCallback old);
 	}
 
-	public static interface CellLabelChangedCallback {
+	public static interface CellLabelChangedCallback
+	{
 		void invoke(mxICell cell, Object newValue, boolean autoSize, CellLabelChangedCallback old);
 	}
 
-	public static interface GetEditingValueCallback {
+	public static interface GetEditingValueCallback
+	{
 		Object invoke(mxICell cell, NativeEvent evt, GetEditingValueCallback old);
 	}
 
-	public static interface IsCellLockedCallback {
+	public static interface IsCellLockedCallback
+	{
 		boolean invoke(mxICell cell, IsCellLockedCallback old);
 	}
 
@@ -109,14 +126,18 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 	 * function. This is a substitute for super.methodName() syntax.
 	 * 
 	 */
-	@SuppressWarnings("unused") private static class DefaultCallback implements GetTooltipForCellCallback, IsCellFoldableCallback, CreateGroupCellCallback,
-			FireMouseEventCallback, ClickCallback, DblClickCallback, IsValidDropTargetCallback, IsValidSourceCallback, IsValidTargetCallback,
-			IsCellEditableCallback, MoveCellsCallback, ConvertValueToStringCallback, CellLabelChangedCallback, GetEditingValueCallback, IsCellLockedCallback {
+	@SuppressWarnings("unused")
+	private static class DefaultCallback implements GetTooltipForCellCallback, IsCellFoldableCallback, CreateGroupCellCallback, FireMouseEventCallback, ClickCallback, DblClickCallback,
+			IsValidDropTargetCallback, IsValidSourceCallback, IsValidTargetCallback, IsCellEditableCallback, MoveCellsCallback, ConvertValueToStringCallback, CellLabelChangedCallback,
+			GetEditingValueCallback, IsCellLockedCallback
+	{
 
 		JavaScriptObject graph;
+
 		JavaScriptObject callback;
 
-		public DefaultCallback(mxGraph graph, JavaScriptObject callback) {
+		public DefaultCallback(mxGraph graph, JavaScriptObject callback)
+		{
 			this.graph = graph.jso;
 			this.callback = callback;
 		}
@@ -216,7 +237,8 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		 * 
 		 * @see com.mxgraph.gwt.client.view.mxGraph.CellLockedCallback#invoke(com.mxgraph.gwt.client.model.mxICell)
 		 */
-		@Override public native boolean invoke(mxICell cell, IsCellLockedCallback old) /*-{
+		@Override
+		public native boolean invoke(mxICell cell, IsCellLockedCallback old) /*-{
 			var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 			return this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::callback.apply(this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::graph,
 					[ cellJS ]);
@@ -309,7 +331,7 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidSource = funct;
 	}-*/;
-	
+
 	/**
 	 * Allows user to redefine the behavior of {@link mxGraph#isValidSource(mxICell) }
 	 * 
@@ -326,7 +348,6 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidTarget = funct;
 	}-*/;
-
 
 	/**
 	 * Allows user to redefine the behavior of {@link mxGraph#isCellEditable(mxICell)}
@@ -488,7 +509,8 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		return new $wnd.mxGraph(container, model, renderHint, stylesheet);
 	}-*/;
 
-	protected mxGraph(JavaScriptObject jso) {
+	protected mxGraph(JavaScriptObject jso)
+	{
 		super(jso);
 	}
 
@@ -496,12 +518,15 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 	 * Constructs a graph inside the container defined via UiBinder.
 	 * 
 	 */
-	public @UiConstructor mxGraph() {
+	public @UiConstructor
+	mxGraph()
+	{
 		initWidget(uiBinder.createAndBindUi(this));
 		jso = createJso(getWidget().getElement());
 	}
 
-	public mxGraph(String container) {
+	public mxGraph(String container)
+	{
 		Element cont = Document.get().getElementById(container);
 		jso = createJso(cont);
 	}
@@ -512,9 +537,11 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 	 * @param renderHint Optional string that specifies the display accuracy and performance. Default is mxConstants.DIALECT_MIXEDHTML (for IE).
 	 * @param stylesheet Optional mxStylesheet to be used in the graph.
 	 */
-	public mxGraph(Widget container, mxGraphModel model, String renderHint, mxStylesheet stylesheet) {
+	public mxGraph(Widget container, mxGraphModel model, String renderHint, mxStylesheet stylesheet)
+	{
 		jso = createJso(container != null ? container.getElement() : null, WrapperUtils.unwrap(model), renderHint, WrapperUtils.unwrap(stylesheet));
-		if (container != null) {
+		if (container != null)
+		{
 			initWidget(container);
 		}
 	}
@@ -533,7 +560,8 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(mxGraphModel);
 	}-*/;
 
-	public mxCell insertVertex(mxCell parent, String id, Object value, double x, double y, double width, double height) {
+	public mxCell insertVertex(mxCell parent, String id, Object value, double x, double y, double width, double height)
+	{
 		return insertVertex(parent, id, value, x, y, width, height, "");
 	}
 
@@ -543,7 +571,8 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(mxCell);
 	}-*/;
 
-	public mxICell insertEdge(mxICell parent, String id, Object value, mxICell source, mxICell target) {
+	public mxICell insertEdge(mxICell parent, String id, Object value, mxICell source, mxICell target)
+	{
 		return insertEdge(parent, id, value, source, target, "");
 	}
 
@@ -1206,7 +1235,8 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setPanning(panning);
 	}-*/;
 
-	public HandlerRegistration addContextMenuHandler(ContextMenuHandler handler) {
+	public HandlerRegistration addContextMenuHandler(ContextMenuHandler handler)
+	{
 		return addDomHandler(handler, ContextMenuEvent.getType());
 	}
 
@@ -1855,6 +1885,38 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers {
 	public native mxCellEditor getCellEditor() /*-{
 		var ceJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).cellEditor;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(ceJS);
+	}-*/;
+
+	public native void addMouseListener(mxMouseEvent.mxIMouseListener<?> listener) /*-{
+		var listenerJS = {
+			mouseDown : function(sender, me) {
+				var meJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(me);
+				var senderJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(sender);
+				listener.@com.mxgraph.gwt.client.util.mxMouseEvent.mxIMouseListener::onMouseDown(Ljava/lang/Object;Lcom/mxgraph/gwt/client/util/mxMouseEvent;)(senderJ, meJ);
+			},
+			mouseUp : function(sender, me) {
+				var meJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(me);
+				var senderJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(sender);
+				listener.@com.mxgraph.gwt.client.util.mxMouseEvent.mxIMouseListener::onMouseUp(Ljava/lang/Object;Lcom/mxgraph/gwt/client/util/mxMouseEvent;)(senderJ, meJ);
+			},
+			mouseMove : function(sender, me) {
+				var meJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(me);
+				var senderJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(sender);
+				listener.@com.mxgraph.gwt.client.util.mxMouseEvent.mxIMouseListener::onMouseMove(Ljava/lang/Object;Lcom/mxgraph/gwt/client/util/mxMouseEvent;)(senderJ, meJ);
+			}
+		};
+		
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).addMouseListener(listenerJS);
+		
+	}-*/;
+	
+	/**
+	 * Gets the state of the mouse button.
+	 * 
+	 * @return
+	 */
+	public native boolean getIsMouseDown() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isMouseDown;
 	}-*/;
 
 }

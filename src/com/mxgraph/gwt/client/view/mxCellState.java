@@ -5,6 +5,7 @@ import java.util.Map;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.mxgraph.gwt.client.model.mxCell;
 import com.mxgraph.gwt.client.model.mxICell;
+import com.mxgraph.gwt.client.shape.mxShape;
 import com.mxgraph.gwt.client.util.CollectionUtils;
 import com.mxgraph.gwt.client.util.mxRectangle;
 
@@ -37,6 +38,34 @@ public class mxCellState extends mxRectangle {
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).cell;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
 	}-*/;
+	
+	/**
+	 *  Holds the {@link mxShape} that represents the cell graphically.
+	 * 
+	 * @return
+	 */
+	public native mxShape getShape() /*-{
+		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).shape;
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
+		
+	}-*/;
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		
+		if (getClass() != obj.getClass())
+			return false;
+		mxCellState other = (mxCellState) obj;
+		
+		if(other.getJso().equals(this.getJso())) {
+			return true;
+		}
+		
+		return true;
+	}
 	
 	
 }
