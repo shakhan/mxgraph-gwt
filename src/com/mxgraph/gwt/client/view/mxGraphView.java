@@ -3,7 +3,8 @@ package com.mxgraph.gwt.client.view;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
-import com.mxgraph.gwt.client.model.mxCell;
+
+import com.mxgraph.gwt.client.model.mxICell;
 import com.mxgraph.gwt.client.model.mxPoint;
 import com.mxgraph.gwt.client.util.mxEventSource;
 
@@ -67,7 +68,7 @@ public class mxGraphView extends mxEventSource {
 	 * 
 	 * @param cell Optional {@link mxCell} to be used as the root of the validation. Default is <currentRoot> or the root of the model.
 	 */
-	public native void validate(mxCell cell) /*-{
+	public native void validate(mxICell cell) /*-{
 		var cellJS = cell != null ? @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell) : null;
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).validate(cellJS);
 	}-*/;
@@ -97,7 +98,7 @@ public class mxGraphView extends mxEventSource {
 	 * @param create boolean indicating if a new state should be created if it does not yet exist.
 	 * @return mxCellState
 	 */
-	public native mxCellState getState(mxCell cell, boolean create) /*-{
+	public native mxCellState getState(mxICell cell, boolean create) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var cellStateJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getState(cellJS, create);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellStateJS);
@@ -112,7 +113,7 @@ public class mxGraphView extends mxEventSource {
 	 * @param orderChanged
 	 * @return
 	 */
-	public native void invalidate(mxCell cell, Boolean recurse, Boolean includeEdges, Boolean orderChanged) /*-{
+	public native void invalidate(mxICell cell, Boolean recurse, Boolean includeEdges, Boolean orderChanged) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var recurseJS = recurse != null ? recurse.@java.lang.Boolean::booleanValue()() : null;
 		var includeEdgesJS = includeEdges != null ? includeEdges.@java.lang.Boolean::booleanValue()() : null;

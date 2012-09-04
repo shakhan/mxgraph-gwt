@@ -23,6 +23,7 @@ import com.mxgraph.gwt.client.model.mxGraphModel.mxTerminalChange;
 import com.mxgraph.gwt.client.model.mxGraphModel.mxValueChange;
 import com.mxgraph.gwt.client.model.mxGraphModel.mxVisibleChange;
 import com.mxgraph.gwt.client.model.mxPoint;
+import com.mxgraph.gwt.client.shape.mxPolyline;
 import com.mxgraph.gwt.client.shape.mxRectangleShape;
 import com.mxgraph.gwt.client.util.mxDragSource.DropHandler;
 import com.mxgraph.gwt.client.util.mxDragSource.DropTargetHandler;
@@ -147,6 +148,8 @@ public class WrapperUtils {
 			wrapper = GWT.create(mxPanningManager.class);
 		} else if (className.equals(getSimpleName(mxCellEditor.class))) {
 			wrapper = GWT.create(mxCellEditor.class);
+		} else if (className.equals(getSimpleName(mxPolyline.class))) {
+			wrapper = GWT.create(mxPolyline.class);
 		}
 
 		return wrapper;

@@ -20,6 +20,13 @@ public class mxPolyline extends mxShape {
 		return new $wnd.mxPolyline(pointsJS, stroke, strokeWidthJS);
 	}-*/;
 
+	protected mxPolyline()
+	{
+	}
+
+
+
+
 	/**
 	 * Constructs a new polyline shape.
 	 * 

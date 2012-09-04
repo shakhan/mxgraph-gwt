@@ -67,6 +67,19 @@ public class mxEvent {
 	 * Specifies the event name for labelChanged.
 	 */
 	public static String LABEL_CHANGED;
+	
+	/**
+	 *
+	 * Specifies the event name for start.
+	 */
+	public static String START;
+	
+
+	/**
+	 *
+	 * Specifies the event name for reset.
+	 */
+	public static String RESET;
 
 	private static native void initialize() /*-{
 		@com.mxgraph.gwt.client.util.mxEvent::ADD = $wnd.mxEvent.ADD;
@@ -77,6 +90,8 @@ public class mxEvent {
 		@com.mxgraph.gwt.client.util.mxEvent::CHANGE = $wnd.mxEvent.CHANGE;
 		@com.mxgraph.gwt.client.util.mxEvent::MOUSE_DOWN = $wnd.mxEvent.MOUSE_DOWN;
 		@com.mxgraph.gwt.client.util.mxEvent::LABEL_CHANGED = $wnd.mxEvent.LABEL_CHANGED;
+		@com.mxgraph.gwt.client.util.mxEvent::START = $wnd.mxEvent.START;
+		@com.mxgraph.gwt.client.util.mxEvent::RESET = $wnd.mxEvent.RESET;
 	}-*/;
 
 	/**

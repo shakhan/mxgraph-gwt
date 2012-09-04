@@ -4,9 +4,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.NativeEvent;
 import com.mxgraph.gwt.client.model.mxCell;
 import com.mxgraph.gwt.client.model.mxICell;
+import com.mxgraph.gwt.client.model.mxPoint;
+import com.mxgraph.gwt.client.shape.mxShape;
 import com.mxgraph.gwt.client.util.WrapperUtils;
 import com.mxgraph.gwt.client.util.mxEventSource;
 import com.mxgraph.gwt.client.util.mxImage;
+import com.mxgraph.gwt.client.util.mxMouseEvent;
+import com.mxgraph.gwt.client.view.mxCellState;
 import com.mxgraph.gwt.client.view.mxGraph;
 
 /**
@@ -71,37 +75,112 @@ import com.mxgraph.gwt.client.view.mxGraph;
  * properties contain the respective arguments that were passed to <connect>.
  * 
  */
-public class mxConnectionHandler extends mxEventSource {
+public class mxConnectionHandler extends mxEventSource
+{
 
-	private native JavaScriptObject createJso(JavaScriptObject graph, JavaScriptObject factoryMethod) /*-{
+	private native JavaScriptObject createJso(JavaScriptObject graph,
+			JavaScriptObject factoryMethod) /*-{
 		return new $wnd.mxConnectionHandler(graph, factoryMethod);
 	}-*/;
 
-	public static interface mxIFactoryMethod {
+	public static interface mxIFactoryMethod
+	{
 		mxCell invoke(mxCell source, mxCell target, String style);
 	}
 
-	public static interface ConnectCallback {
-		void invoke(mxICell source, mxICell target, NativeEvent evt, mxICell dropTarget, ConnectCallback old);
+	public static interface ConnectCallback
+	{
+		void invoke(mxICell source, mxICell target, NativeEvent evt,
+				mxICell dropTarget, ConnectCallback old);
 	}
 
-	@SuppressWarnings("unused") private static class DefaultCallback implements ConnectCallback {
+	public static interface CreateShapeCallback
+	{
+		mxShape invoke(CreateShapeCallback old);
+	}
+
+	public static interface GetEdgeColorCallback
+	{
+		String invoke(boolean valid, GetEdgeColorCallback old);
+	}
+
+	public static interface GetEdgeWidthCallback
+	{
+		int invoke(boolean valid, GetEdgeWidthCallback old);
+	}
+
+	public static interface MouseDownCallback
+	{
+		void invoke(Object sender, mxMouseEvent event, MouseDownCallback old);
+	}
+
+	public static interface ResetCallback
+	{
+		void invoke(ResetCallback old);
+	}
+
+	@SuppressWarnings("unused")
+	private static class DefaultCallback implements ConnectCallback,
+			CreateShapeCallback, GetEdgeColorCallback, GetEdgeWidthCallback,
+			MouseDownCallback, ResetCallback
+	{
 
 		JavaScriptObject handler;
+
 		JavaScriptObject callback;
 
-		public DefaultCallback(mxConnectionHandler handler, JavaScriptObject callback) {
+		public DefaultCallback(mxConnectionHandler handler,
+				JavaScriptObject callback)
+		{
 			this.handler = handler.jso;
 			this.callback = callback;
 		}
 
-		@Override public native void invoke(mxICell source, mxICell target, NativeEvent evt, mxICell dropTarget, ConnectCallback old) /*-{
+		@Override
+		public native void invoke(mxICell source, mxICell target,
+				NativeEvent evt, mxICell dropTarget, ConnectCallback old) /*-{
 			var sourceJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(source);
 			var targetJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(target);
 			var dropTargetJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(dropTarget);
 
 			this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::callback.apply(
 					this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::handler, [ sourceJS, targetJS, evt, dropTargetJS ]);
+
+		}-*/;
+
+		@Override
+		public native mxShape invoke(CreateShapeCallback old) /*-{
+			var shapeJS = this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::callback
+					.apply(this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::handler);
+			return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(shapeJS);
+		}-*/;
+
+		@Override
+		public native int invoke(boolean valid, GetEdgeWidthCallback old) /*-{
+			return this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::callback.apply(
+					this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::handler, [ valid ]);
+		}-*/;
+
+		@Override
+		public native String invoke(boolean valid, GetEdgeColorCallback old) /*-{
+			return this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::callback.apply(
+					this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::handler, [ valid ]);
+		}-*/;
+
+		@Override
+		public native void invoke(Object sender, mxMouseEvent event,
+				MouseDownCallback old) /*-{
+					
+			var eventJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(event);
+			this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::callback.apply(
+					this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::handler, [ sender, eventJS ]);
+					
+		}-*/;
+
+		@Override
+		public native void invoke(ResetCallback old) /*-{
+			this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::callback
+					.apply(this.@com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::handler);
 
 		}-*/;
 
@@ -124,7 +203,68 @@ public class mxConnectionHandler extends mxEventSource {
 		
 	}-*/;
 
-	private mxConnectionHandler() {
+	public native void setCreateShapeCallback(CreateShapeCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createShape;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function() {
+			var shapeJS = callback.@com.mxgraph.gwt.client.handler.mxConnectionHandler.CreateShapeCallback::invoke(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler$CreateShapeCallback;)(oldJ);
+			return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(shapeJS);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createShape = funct;
+
+	}-*/;
+
+	public native void setGetEdgeColorCallback(GetEdgeColorCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdgeColor;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function(valid) {
+			return callback.@com.mxgraph.gwt.client.handler.mxConnectionHandler.GetEdgeColorCallback::invoke(ZLcom/mxgraph/gwt/client/handler/mxConnectionHandler$GetEdgeColorCallback;)(valid, oldJ);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdgeColor = funct;
+	}-*/;
+
+	public native void setGetEdgeWidthCallback(GetEdgeWidthCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdgeWidth;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function(valid) {
+			return callback.@com.mxgraph.gwt.client.handler.mxConnectionHandler.GetEdgeWidthCallback::invoke(ZLcom/mxgraph/gwt/client/handler/mxConnectionHandler$GetEdgeWidthCallback;)(valid, oldJ);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdgeWidth = funct;
+	}-*/;
+
+	public native void setMouseDownCallback(MouseDownCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).mouseDown;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function(sender, me) {
+			var meJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(me);
+			callback.@com.mxgraph.gwt.client.handler.mxConnectionHandler.MouseDownCallback::invoke(Ljava/lang/Object;Lcom/mxgraph/gwt/client/util/mxMouseEvent;Lcom/mxgraph/gwt/client/handler/mxConnectionHandler$MouseDownCallback;)
+				(sender, meJ, oldJ);
+
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).mouseDown = funct;
+	}-*/;
+
+	public native void setResetCallback(ResetCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).reset;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxConnectionHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function() {
+			callback.@com.mxgraph.gwt.client.handler.mxConnectionHandler.ResetCallback::invoke(Lcom/mxgraph/gwt/client/handler/mxConnectionHandler$ResetCallback;)(oldJ);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).reset = funct;
+	}-*/;
+
+	private mxConnectionHandler()
+	{
 	}
 
 	/**
@@ -132,7 +272,8 @@ public class mxConnectionHandler extends mxEventSource {
 	 * 
 	 * @param graph Reference to the enclosing {@link mxGraph}.
 	 */
-	public mxConnectionHandler(mxGraph graph) {
+	public mxConnectionHandler(mxGraph graph)
+	{
 		this(graph, null);
 	}
 
@@ -143,8 +284,12 @@ public class mxConnectionHandler extends mxEventSource {
 	 * @param factoryMethod Optional function to create the edge.
 	 *            {@link mxIFactoryMethod#invoke(com.mxgraph.gwt.client.model.mxCell, com.mxgraph.gwt.client.model.mxCell, String)}
 	 */
-	public mxConnectionHandler(mxGraph graph, mxIFactoryMethod factoryMethod) {
-		jso = createJso(graph.getJso(), factoryMethod != null ? WrapperUtils.wrapCallbackInterface(factoryMethod) : null);
+	public mxConnectionHandler(mxGraph graph, mxIFactoryMethod factoryMethod)
+	{
+		jso = createJso(
+				graph.getJso(),
+				factoryMethod != null ? WrapperUtils
+						.wrapCallbackInterface(factoryMethod) : null);
 	}
 
 	/**
@@ -199,6 +344,22 @@ public class mxConnectionHandler extends mxEventSource {
 	 */
 	public native void setCreateTarget(boolean createTarget) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createTarget = createTarget;
+	}-*/;
+
+	/**
+	 * Returns the {@link mxPoint} where the mouseDown took place while the handler is
+	* active.
+	 * 
+	 * @return
+	 */
+	public native mxPoint getFirst() /*-{
+		var firstJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).first;
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(firstJS);
+	}-*/;
+	
+	public native mxCellState getPrevious() /*-{
+		var previousJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).previous;
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(previousJS);
 	}-*/;
 
 }

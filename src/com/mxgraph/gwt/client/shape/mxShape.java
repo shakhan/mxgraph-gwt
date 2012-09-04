@@ -673,6 +673,40 @@ public abstract class mxShape implements IJavaScriptWrapper {
 		var pathJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(path);
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).redrawPath(pathJS, x, y, w, h);
 	}-*/;
+	
+	/**
+	 * Sets the stroke color
+	 * @param stroke
+	 */
+	public native void setStroke(String stroke) /*-{
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).stroke = stroke;
+	}-*/;
+	
+	/**
+	 * Gets the stroke color
+	 * @param stroke
+	 * @return
+	 */
+	public native String getStroke() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).stroke;
+	}-*/;
+	
+	/**
+	 * Sets the dashed flag
+	 * @param dashed
+	 */
+	public native void setDashed(boolean dashed) /*-{
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isDashed = dashed;
+	}-*/;
+	
+	/**
+	 * If the line of the shape is dashed or not
+	 * @param dashed
+	 * @return
+	 */
+	public native String isDashed() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isDashed;
+	}-*/;
 
 
 }
