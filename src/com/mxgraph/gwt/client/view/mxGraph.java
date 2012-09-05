@@ -1752,8 +1752,9 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 	 * 
 	 * @return {@link mxICell} for which the selection state should be returned.
 	 */
-	public native boolean isCellSelected() /*-{
-		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isCellSelected();
+	public native boolean isCellSelected(mxICell cell) /*-{
+		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isCellSelected(cellJS);
 	}-*/;
 
 	/**
