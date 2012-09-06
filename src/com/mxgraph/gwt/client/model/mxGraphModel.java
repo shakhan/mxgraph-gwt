@@ -109,13 +109,13 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	protected static native JavaScriptObject createNativeFilterDelegate(Filter filter) /*-{
 		var nfd = function(cell) {
 			var cellJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cell);
-			return filter.@com.mxgraph.gwt.client.model.mxGraphModel.Filter::filter(Lcom/mxgraph/gwt/client/model/mxCell;)(cellJ);
+			return filter.@com.mxgraph.gwt.client.model.mxGraphModel.Filter::filter(Lcom/mxgraph/gwt/client/model/mxICell;)(cellJ);
 		};
 		return nfd;
 	}-*/;
 
 	public static interface Filter {
-		boolean filter(mxCell cell);
+		boolean filter(mxICell cell);
 	}
 
 	private native JavaScriptObject createJso(JavaScriptObject root) /*-{
@@ -130,9 +130,9 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}
 
 	/**
-	 * Constructs a new graph model. If no root is specified then a new root {@link mxCell} with a default layer is created.
+	 * Constructs a new graph model. If no root is specified then a new root {@link mxICell} with a default layer is created.
 	 * 
-	 * @param root {@link mxCell} that represents the root cell.
+	 * @param root {@link mxICell} that represents the root cell.
 	 */
 	public mxGraphModel(mxICell root) {
 		jso = createJso(root != null ? root.getJso() : null);
@@ -167,7 +167,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).endUpdate();
 	}-*/;
 
-	public native mxCell getRoot() /*-{
+	public native mxICell getRoot() /*-{
 		var rootJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).root;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(rootJS);
 	}-*/;
@@ -181,7 +181,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * 
 	 * @return map containing IDs and cells
 	 */
-	public Map<String, mxCell> getCells() {
+	public Map<String, mxICell> getCells() {
 		return WrapperUtils.wrapMap(getCellsJS());
 	};
 
@@ -282,24 +282,24 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}-*/;
 
 	/**
-	 * Returns the {@link mxCell} for the specified Id or null if no cell can be found for the given Id.
+	 * Returns the {@link mxICell} for the specified Id or null if no cell can be found for the given Id.
 	 * 
 	 * @param id id of the cell
 	 * @return cell
 	 */
-	public native mxCell getCell(String id) /*-{
+	public native mxICell getCell(String id) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getCell(id);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
 	}-*/;
 
-	public native List<mxCell> filterCells(List<mxCell> cells, Filter filter) /*-{
+	public native List<mxICell> filterCells(List<mxICell> cells, Filter filter) /*-{
 		var cellsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrapList(Ljava/util/List;)(cells);
 		var nfd = @com.mxgraph.gwt.client.model.mxGraphModel::createNativeFilterDelegate(Lcom/mxgraph/gwt/client/model/mxGraphModel$Filter;)(filter);
 		var filteredCellsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).filterCells(cellsJS, nfd);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(filteredCellsJS);
 	}-*/;
 
-	private native JavaScriptObject getDescendantsJS(mxCell parent) /*-{
+	private native JavaScriptObject getDescendantsJS(mxICell parent) /*-{
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getDescendants(parentJS);
 	}-*/;
@@ -307,10 +307,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns all descendants of the given cell and the cell itself in an list.
 	 * 
-	 * @param parent {@link mxCell} whose descendants should be returned.
+	 * @param parent {@link mxICell} whose descendants should be returned.
 	 * @return list of descendants
 	 */
-	public List<mxCell> getDescendants(mxCell parent) {
+	public List<mxICell> getDescendants(mxICell parent) {
 		return WrapperUtils.wrapList(getDescendantsJS(parent));
 	}
 
@@ -318,11 +318,11 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * Visits all cells recursively and applies the specified filter to each cell. If the function returns true then the cell is added to the resulting array.
 	 * The parent and result parameters are optional. If parent is not specified then the recursion starts at <root>.
 	 * 
-	 * @param filter Java object with a method that takes an {@link mxCell} as an argument and returns a boolean.
-	 * @param parent Optional {@link mxCell} that is used as the root of the recursion.
+	 * @param filter Java object with a method that takes an {@link mxICell} as an argument and returns a boolean.
+	 * @param parent Optional {@link mxICell} that is used as the root of the recursion.
 	 * @return
 	 */
-	public native List<mxCell> filterDescendants(Filter filter, mxCell parent) /*-{
+	public native List<mxICell> filterDescendants(Filter filter, mxICell parent) /*-{
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent);
 		var nfd = @com.mxgraph.gwt.client.model.mxGraphModel::createNativeFilterDelegate(Lcom/mxgraph/gwt/client/model/mxGraphModel$Filter;)(filter);
 		var descendantsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).filterDescendants(nfd,
@@ -334,11 +334,11 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the root of the model or the topmost parent of the given cell.
 	 * 
-	 * @param cell Optional @{link mxCell} that specifies the child.
+	 * @param cell Optional @{link mxICell} that specifies the child.
 	 * 
 	 * @return root cell
 	 */
-	public native mxCell getRoot(mxCell cell) /*-{
+	public native mxICell getRoot(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
 	}-*/;
@@ -347,9 +347,9 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * Sets the <root> of the model using <mxRootChange> and adds the change to the current transaction. This resets all data structures in the model and is the
 	 * preferred way of clearing an existing model. Returns the new root.
 	 * 
-	 * @param root {@link mxCell} that specifies the new root.
+	 * @param root {@link mxICell} that specifies the new root.
 	 */
-	public native void setRoot(mxCell root) /*-{
+	public native void setRoot(mxICell root) /*-{
 		var rootJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(root).root;
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setRoot(rootJS);
 	}-*/;
@@ -357,10 +357,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns true if the given cell is the root of the model and a non-null value.
 	 * 
-	 * @param root {@link mxCell} that represents the possible root.
+	 * @param root {@link mxICell} that represents the possible root.
 	 * @return
 	 */
-	public native boolean isRoot(mxCell root) /*-{
+	public native boolean isRoot(mxICell root) /*-{
 		var rootJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(root).root;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isRoot(rootJS);
 	}-*/;
@@ -368,10 +368,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns true if <isRoot> returns true for the parent of the given cell.
 	 * 
-	 * @param cell {@link mxCell} that represents the possible layer.
+	 * @param cell {@link mxICell} that represents the possible layer.
 	 * @return
 	 */
-	public native boolean isLayer(mxCell cell) /*-{
+	public native boolean isLayer(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(root).cell;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isLayer(cellJS);
 	}-*/;
@@ -379,23 +379,23 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns true if the given parent is an ancestor of the given child.
 	 * 
-	 * @param parent {@link mxCell} that specifies the parent.
-	 * @param child {@link mxCell} that specifies the child.
+	 * @param parent {@link mxICell} that specifies the parent.
+	 * @param child {@link mxICell} that specifies the child.
 	 * @return
 	 */
-	public native boolean isAncestor(mxCell parent, mxCell child) /*-{
+	public native boolean isAncestor(mxICell parent, mxICell child) /*-{
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent).cell;
 		var childJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(child).cell;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isAncestor(parentJS, childJS);
 	}-*/;
 
 	/**
-	 * Returns true if the model contains the given {@link mxCell}.
+	 * Returns true if the model contains the given {@link mxICell}.
 	 * 
-	 * @param cell {@link mxCell} that specifies the cell.
+	 * @param cell {@link mxICell} that specifies the cell.
 	 * @return
 	 */
-	public native boolean contains(mxCell cell) /*-{
+	public native boolean contains(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(root).cell;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).contains(cellJS);
 	}-*/;
@@ -403,10 +403,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the parent of the given cell.
 	 * 
-	 * @param cell @{link mxCell} whose parent should be returned.
+	 * @param cell @{link mxICell} whose parent should be returned.
 	 * @return parent cell
 	 */
-	public native mxCell getParent(mxCell cell) /*-{
+	public native mxICell getParent(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getParent(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(parentJS);
@@ -421,7 +421,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * @param index
 	 * @return
 	 */
-	public native mxCell add(mxCell parent, mxCell child, Integer index) /*-{
+	public native mxICell add(mxICell parent, mxICell child, Integer index) /*-{
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent).cell;
 		var childJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(child).cell;
 		var indexJS = index != null ? index.@java.lang.Integer::intValue() : null;
@@ -433,10 +433,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * Hook method to create an Id for the specified cell. This implementation concatenates <prefix>, id and <postfix> to create the Id and increments <nextId>.
 	 * The cell is ignored by this implementation, but can be used in overridden methods to prefix the Ids with eg. the cell type.
 	 * 
-	 * @param cell @{link mxCell} to create the Id for.
+	 * @param cell @{link mxICell} to create the Id for.
 	 * @return created Id
 	 */
-	public native String createId(mxCell cell) /*-{
+	public native String createId(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createId(cellJS);
 	}-*/;
@@ -447,7 +447,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * @param cell
 	 * @param root
 	 */
-	public native void updateEdgeParents(mxCell cell, mxCell root) /*-{
+	public native void updateEdgeParents(mxICell cell, mxICell root) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var rootJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(root);
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).updateEdgeParents(cellJS, rootJS);
@@ -459,7 +459,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * @param cell
 	 * @return
 	 */
-	public native mxPoint getOrigin(mxCell cell) /*-{
+	public native mxPoint getOrigin(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var pointJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getOrigin(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(pointJS);
@@ -468,11 +468,11 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the nearest common ancestor for the specified cells.
 	 * 
-	 * @param cell1 {@link mxCell} that specifies the first cell in the tree.
-	 * @param cell2 {@link mxCell} that specifies the second cell in the tree.
+	 * @param cell1 {@link mxICell} that specifies the first cell in the tree.
+	 * @param cell2 {@link mxICell} that specifies the second cell in the tree.
 	 * @return
 	 */
-	public native mxCell getNearestCommonAncestor(mxCell cell1, mxCell cell2) /*-{
+	public native mxICell getNearestCommonAncestor(mxICell cell1, mxICell cell2) /*-{
 		var cell1JS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell1);
 		var cell2JS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell2);
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getNearestCommonAncestor(cell1JS,
@@ -484,10 +484,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * Removes the specified cell from the model using <mxChildChange> and adds the change to the current transaction. This operation will remove the cell and
 	 * all of its children from the model. Returns the removed cell.
 	 * 
-	 * @param cell {@link mxCell} that should be removed.
+	 * @param cell {@link mxICell} that should be removed.
 	 * @return removed cell
 	 */
-	public native mxCell remove(mxCell cell) /*-{
+	public native mxICell remove(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).remove(cellJS);
 		return cell;
@@ -496,32 +496,32 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the number of children in the given cell.
 	 * 
-	 * @param cell {@link mxCell} whose number of children should be returned.
+	 * @param cell {@link mxICell} whose number of children should be returned.
 	 * @return child count
 	 */
-	public native int getChildCount(mxCell cell) /*-{
+	public native int getChildCount(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getChildCount(cellJS);
 	}-*/;
 
 	/**
-	 * Returns the child of the given {@link mxCell} at the given index.
+	 * Returns the child of the given {@link mxICell} at the given index.
 	 * 
 	 * @param index Integer that specifies the index of the child to be returned.
-	 * @return mxCell at specified position or null
+	 * @return mxICell at specified position or null
 	 */
-	public native mxCell getChildAt(int index) /*-{
+	public native mxICell getChildAt(int index) /*-{
 		var childJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getChildAt(index);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(childJS);
 	}-*/;
 
 	/**
-	 * Returns the child of the given {@link mxCell} at the given index.
+	 * Returns the child of the given {@link mxICell} at the given index.
 	 * 
-	 * @param cell {@link mxCell} that represents the parent.
+	 * @param cell {@link mxICell} that represents the parent.
 	 * @return
 	 */
-	public native List<mxCell> getChildren(mxCell cell) /*-{
+	public native List<mxICell> getChildren(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var childrenJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getChildren(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(childrenJS);
@@ -530,10 +530,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the child vertices of the given parent.
 	 * 
-	 * @param parent {@link mxCell} whose child vertices should be returned.
+	 * @param parent {@link mxICell} whose child vertices should be returned.
 	 * @return
 	 */
-	public native List<mxCell> getChildVertices(mxCell parent) /*-{
+	public native List<mxICell> getChildVertices(mxICell parent) /*-{
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent);
 		var childVerticesJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getChildVertices(parentJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(childVerticesJS);
@@ -542,10 +542,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the child edges of the given parent.
 	 * 
-	 * @param parent {@link mxCell} whose child edges should be returned.
+	 * @param parent {@link mxICell} whose child edges should be returned.
 	 * @return child edges
 	 */
-	public native List<mxCell> getChildEges(mxCell parent) /*-{
+	public native List<mxICell> getChildEges(mxICell parent) /*-{
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent);
 		var childEdgesJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getChildEges(parentJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(childEdgesJS);
@@ -554,53 +554,53 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the children of the given cell that are vertices and/or edges depending on the arguments.
 	 * 
-	 * @param parent {@link mxCell} the represents the parent.
+	 * @param parent {@link mxICell} the represents the parent.
 	 * @param vertices Boolean indicating if child vertices should be returned. Default is false.
 	 * @param edges Boolean indicating if child edges should be returned. Default is false.
 	 * @return list of child cells
 	 */
-	public native List<mxCell> getChildCells(mxCell parent, boolean vertices, boolean edges) /*-{
+	public native List<mxICell> getChildCells(mxICell parent, boolean vertices, boolean edges) /*-{
 		var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent);
 		var childCellsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getChildCells(parentJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(childCellsJS);
 	}-*/;
 
 	/**
-	 * Returns the source or target {@link mxCell} of the given edge depending on the value of the boolean parameter.
+	 * Returns the source or target {@link mxICell} of the given edge depending on the value of the boolean parameter.
 	 * 
-	 * @param edge {@link mxCell} that specifies the edge.
+	 * @param edge {@link mxICell} that specifies the edge.
 	 * @param isSource Boolean indicating which end of the edge should be returned.
 	 * @return
 	 */
-	public native mxCell getTerminal(mxCell edge, boolean isSource) /*-{
+	public native mxICell getTerminal(mxICell edge, boolean isSource) /*-{
 		var edgeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(edge);
 		var terminalJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getTerminal(edgeJS, isSource);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(terminalJS);
 	}-*/;
 
 	/**
-	 * Sets the source or target terminal of the given {@link mxCell} using mxTerminalChange and adds the change to the current transaction. This implementation
-	 * updates the parent of the edge using {@link #updateEdgeParents(mxCell, mxCell)} if required.
+	 * Sets the source or target terminal of the given {@link mxICell} using mxTerminalChange and adds the change to the current transaction. This implementation
+	 * updates the parent of the edge using {@link #updateEdgeParents(mxICell, mxICell)} if required.
 	 * 
-	 * @param edge {@link mxCell} that specifies the edge.
-	 * @param terminal {@link mxCell} that specifies the new terminal.
+	 * @param edge {@link mxICell} that specifies the edge.
+	 * @param terminal {@link mxICell} that specifies the new terminal.
 	 * @param isSource Boolean indicating if the terminal is the new source or target terminal of the edge.
 	 */
-	public native void setTerminal(mxCell edge, mxCell terminal, boolean isSource) /*-{
+	public native void setTerminal(mxICell edge, mxICell terminal, boolean isSource) /*-{
 		var edgeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(edge);
 		var terminalJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(terminal);
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setTerminal(edgeJS, terminalJS, isSource);
 	}-*/;
 
 	/**
-	 * Sets the source and target {@link mxCell} of the given mxCell in a single transaction using {@link #setTerminal(mxCell, mxCell, boolean)} for each end of
+	 * Sets the source and target {@link mxICell} of the given mxICell in a single transaction using {@link #setTerminal(mxICell, mxICell, boolean)} for each end of
 	 * the edge.
 	 * 
-	 * @param edge <mxCell> that specifies the edge.
-	 * @param source <mxCell> that specifies the new source terminal.
-	 * @param target <mxCell> that specifies the new target terminal.
+	 * @param edge <mxICell> that specifies the edge.
+	 * @param source <mxICell> that specifies the new source terminal.
+	 * @param target <mxICell> that specifies the new target terminal.
 	 */
-	public native void setTerminals(mxCell edge, mxCell source, mxCell target) /*-{
+	public native void setTerminals(mxICell edge, mxICell source, mxICell target) /*-{
 		var edgeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(edge);
 		var sourceJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(source);
 		var targetJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(target);
@@ -610,10 +610,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the number of distinct edges connected to the given cell.
 	 * 
-	 * @param cell {@link mxCell} that represents the vertex.
+	 * @param cell {@link mxICell} that represents the vertex.
 	 * @return
 	 */
-	public native int getEdgeCount(mxCell cell) /*-{
+	public native int getEdgeCount(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdgeCount(cellJS);
 	}-*/;
@@ -621,11 +621,11 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the edge of cell at the given index.
 	 * 
-	 * @param cell {@link mxCell} that specifies the vertex.
+	 * @param cell {@link mxICell} that specifies the vertex.
 	 * @param index Integer that specifies the index of the edge
 	 * @return
 	 */
-	public native mxCell getEdgeAt(mxCell cell, int index) /*-{
+	public native mxICell getEdgeAt(mxICell cell, int index) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var edgeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdgeAt(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(edgeJS);
@@ -634,12 +634,12 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the number of incoming or outgoing edges, ignoring the given edge.
 	 * 
-	 * @param cell mxCell whose edge count should be returned.
+	 * @param cell mxICell whose edge count should be returned.
 	 * @param outgoing Boolean that specifies if the number of outgoing or incoming edges should be returned.
-	 * @param ignoredEdge mxCell that represents an edge to be ignored.
+	 * @param ignoredEdge mxICell that represents an edge to be ignored.
 	 * @return
 	 */
-	public native int getDirectedEdgeCount(mxCell cell, boolean outgoing, mxCell ignoredEdge) /*-{
+	public native int getDirectedEdgeCount(mxICell cell, boolean outgoing, mxICell ignoredEdge) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var ignoredEdgeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(ignoredEdge);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getDirectedEdgeCount(cellJS, outgoing,
@@ -649,10 +649,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns all edges of the given cell without loops.
 	 * 
-	 * @param cell {@link mxCell} whose edges should be returned.
+	 * @param cell {@link mxICell} whose edges should be returned.
 	 * @return
 	 */
-	public native List<mxCell> getConnections(mxCell cell) /*-{
+	public native List<mxICell> getConnections(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var connectionsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getConnections(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(connectionsJS);
@@ -661,10 +661,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the incoming edges of the given cell without loops.
 	 * 
-	 * @param cell {@link mxCell} whose incoming edges should be returned.
+	 * @param cell {@link mxICell} whose incoming edges should be returned.
 	 * @return
 	 */
-	public native List<mxCell> getIncomingEdges(mxCell cell) /*-{
+	public native List<mxICell> getIncomingEdges(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var edgesJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getIncomingEdges(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(edgesJS);
@@ -673,10 +673,10 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns the outgoing edges of the given cell without loops.
 	 * 
-	 * @param cell {@link mxCell} whose outgoing edges should be returned.
+	 * @param cell {@link mxICell} whose outgoing edges should be returned.
 	 * @return
 	 */
-	public native List<mxCell> getOutgoingEdges(mxCell cell) /*-{
+	public native List<mxICell> getOutgoingEdges(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var edgesJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getOutgoingEdges(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(edgesJS);
@@ -688,21 +688,21 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * @param cell cell whose edges should be returned.
 	 * @return list of edges
 	 */
-	public List<mxCell> getEdges(mxCell cell) {
+	public List<mxICell> getEdges(mxICell cell) {
 		return getEdges(cell, true, true, true);
 	}
 
 	/**
-	 * Returns all distinct edges connected to this cell as a new array of {@link mxCellState}. If at least one of incoming or outgoing is true, then loops are
+	 * Returns all distinct edges connected to this cell as a new array of {@link mxICellState}. If at least one of incoming or outgoing is true, then loops are
 	 * ignored, otherwise if both are false, then all edges connected to the given cell are returned including loops.
 	 * 
-	 * @param cell {@link mxCell} that specifies the cell.
+	 * @param cell {@link mxICell} that specifies the cell.
 	 * @param incoming boolean that specifies if incoming edges should be returned.
 	 * @param outgoing boolean that specifies if outgoing edges should be returned.
 	 * @param includeLoops boolean that specifies if loops should be returned.
 	 * @return Returns the list of connected edges for the given cell.
 	 */
-	public native List<mxCell> getEdges(mxCell cell, boolean incoming, boolean outgoing, boolean includeLoops) /*-{
+	public native List<mxICell> getEdges(mxICell cell, boolean incoming, boolean outgoing, boolean includeLoops) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var edgesJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdges(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(edgesJS);
@@ -715,7 +715,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * @param target the target cell.
 	 * @return Returns all edges from source to target.
 	 */
-	public List<mxCell> getEdgesBetween(mxCell source, mxCell target) {
+	public List<mxICell> getEdgesBetween(mxICell source, mxICell target) {
 		return getEdgesBetween(source, target, false);
 	}
 
@@ -723,12 +723,12 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * Returns all edges between the given source and target pair. If directed is true, then only edges from the source to the target are returned, otherwise,
 	 * all edges between the two cells are returned.
 	 * 
-	 * @param source {@link mxCell} that defines the source terminal of the edge to be returned.
-	 * @param target {@link mxCell} that defines the target terminal of the edge to be returned.
+	 * @param source {@link mxICell} that defines the source terminal of the edge to be returned.
+	 * @param target {@link mxICell} that defines the target terminal of the edge to be returned.
 	 * @param directed boolean that specifies if the direction of the edge should be taken into account.
 	 * @return list of edges
 	 */
-	public native List<mxCell> getEdgesBetween(mxCell source, mxCell target, boolean directed) /*-{
+	public native List<mxICell> getEdgesBetween(mxICell source, mxICell target, boolean directed) /*-{
 		var sourceJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(source);
 		var targetJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(target);
 		var edgesJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getEdgesBetween(sourceJS, targetJS,
@@ -738,27 +738,27 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 
 	/**
 	 * Returns all opposite vertices wrt terminal for the given edges, only returning sources and/or targets as specified. The result is returned as a list of
-	 * mxCell.
+	 * mxICell.
 	 * 
-	 * @param edges list of mxCells that contain the edges to be examined.
-	 * @param terminal {@link mxCell} that specifies the known end of the edges.
+	 * @param edges list of mxICells that contain the edges to be examined.
+	 * @param terminal {@link mxICell} that specifies the known end of the edges.
 	 * @param sources Boolean that specifies if source terminals should be contained in the result.
 	 * @param targets Boolean that specifies if target terminals should be contained in the result.
 	 * @return list of cells
 	 */
-	public native List<mxCell> getOpposites(List<mxCell> edges, mxCell terminal, boolean sources, boolean targets) /*-{
+	public native List<mxICell> getOpposites(List<mxICell> edges, mxICell terminal, boolean sources, boolean targets) /*-{
 		var edgesJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrapList(Ljava/util/List;)(edges);
 		var sourceJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 	}-*/;
 
 	/**
-	 * Returns the topmost cells of the hierarchy in an array that contains no descendants for each {@link mxCell} that it contains. Duplicates should be
+	 * Returns the topmost cells of the hierarchy in an array that contains no descendants for each {@link mxICell} that it contains. Duplicates should be
 	 * removed in the cells array to improve performance.
 	 * 
 	 * @param cells list of cells whose topmost ancestors should be returned.
 	 * @return
 	 */
-	public native List<mxCell> getTopmostCells(List<mxCell> cells) /*-{
+	public native List<mxICell> getTopmostCells(List<mxICell> cells) /*-{
 		var cellsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrapList(Ljava/util/List;)(cells);
 		var topCellsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getTopmostCells(cellsJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(topCellsJS);
@@ -767,7 +767,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns true if the given cell is a vertex.
 	 * 
-	 * @param cell {@link mxCell} that represents the possible vertex.
+	 * @param cell {@link mxICell} that represents the possible vertex.
 	 * @return
 	 */
 	public native boolean isVertex(mxICell cell) /*-{
@@ -779,7 +779,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	/**
 	 * Returns true if the given cell is an edge.
 	 * 
-	 * @param cell {@link mxCell} that represents the possible edge.
+	 * @param cell {@link mxICell} that represents the possible edge.
 	 * @return
 	 */
 	public native boolean isEdge(mxICell cell) /*-{
@@ -789,32 +789,32 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}-*/;
 
 	/**
-	 * Returns true if the given {@link mxCell} is connectable. If edgesConnectable is false, then this function returns false for all edges else it returns the
-	 * return value of {@link mxCell#isConnectable()}.
+	 * Returns true if the given {@link mxICell} is connectable. If edgesConnectable is false, then this function returns false for all edges else it returns the
+	 * return value of {@link mxICell#isConnectable()}.
 	 * 
-	 * @param cell mxCell whose connectable state should be returned.
+	 * @param cell mxICell whose connectable state should be returned.
 	 * @return
 	 */
-	public native boolean isConnectable(mxCell cell) /*-{
+	public native boolean isConnectable(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isConnectable(cellJS);
 	}-*/;
 
 	/**
-	 * Returns the user object of the given {@link mxCell} using {@link mxCell#getValue()}.
+	 * Returns the user object of the given {@link mxICell} using {@link mxICell#getValue()}.
 	 * 
-	 * @param cell {@link mxCell} whose user object should be returned.
+	 * @param cell {@link mxICell} whose user object should be returned.
 	 * @return Returns the user object of the given cell.
 	 */
-	public native Object getValue(mxCell cell) /*-{
+	public native Object getValue(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getValue(cellsJS);
 	}-*/;
 
 	/**
-	 * Sets the user object of then given {@link mxCell} using {@link mxValueChange} and adds the change to the current transaction.
+	 * Sets the user object of then given {@link mxICell} using {@link mxValueChange} and adds the change to the current transaction.
 	 * 
-	 * @param cell {@link mxCell} whose user object should be changed.
+	 * @param cell {@link mxICell} whose user object should be changed.
 	 * @param value Object that defines the new user object.
 	 * @return Returns the new value.
 	 */
@@ -824,12 +824,12 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}-*/;
 
 	/**
-	 * Returns the {@link mxGeometry} of the given {@link mxCell}.
+	 * Returns the {@link mxGeometry} of the given {@link mxICell}.
 	 * 
 	 * @param cell
 	 * @return
 	 */
-	public native mxGeometry getGeometry(mxCell cell) /*-{
+	public native mxGeometry getGeometry(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var geometryJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getGeometry(cellJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(geometryJS);
@@ -864,7 +864,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxRootChange() {
 		}
 
-		public mxRootChange(mxGraphModel model, mxCell root) {
+		public mxRootChange(mxGraphModel model, mxICell root) {
 			jso = createJso(model.getJso(), root.getJso());
 		}
 	}
@@ -878,7 +878,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxChildChange() {
 		}
 
-		public mxChildChange(mxGraphModel model, mxCell parent, mxCell child, int index) {
+		public mxChildChange(mxGraphModel model, mxICell parent, mxICell child, int index) {
 			jso = createJso(model.getJso(), parent.getJso(), child.getJso(), index);
 		}
 	}
@@ -892,7 +892,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxTerminalChange() {
 		}
 
-		public mxTerminalChange(mxGraphModel model, mxCell cell, mxCell terminal, mxCell source) {
+		public mxTerminalChange(mxGraphModel model, mxICell cell, mxICell terminal, mxICell source) {
 			jso = createJso(model.getJso(), cell.getJso(), terminal.getJso(), source.getJso());
 		}
 	}
@@ -906,7 +906,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxValueChange() {
 		}
 
-		public mxValueChange(mxGraphModel model, mxCell cell, Object value) {
+		public mxValueChange(mxGraphModel model, mxICell cell, Object value) {
 			jso = createJso(model.getJso(), cell.getJso(), value);
 		}
 	}
@@ -920,7 +920,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxStyleChange() {
 		}
 
-		public mxStyleChange(mxGraphModel model, mxCell cell, String style) {
+		public mxStyleChange(mxGraphModel model, mxICell cell, String style) {
 			jso = createJso(model.getJso(), cell.getJso(), style);
 		}
 	}
@@ -934,7 +934,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxGeometryChange() {
 		}
 
-		public mxGeometryChange(mxGraphModel model, mxCell cell, mxGeometry geometry) {
+		public mxGeometryChange(mxGraphModel model, mxICell cell, mxGeometry geometry) {
 			jso = createJso(model.getJso(), cell.getJso(), geometry.getJso());
 		}
 	}
@@ -948,7 +948,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxCollapseChange() {
 		}
 
-		public mxCollapseChange(mxGraphModel model, mxCell cell, boolean collapse) {
+		public mxCollapseChange(mxGraphModel model, mxICell cell, boolean collapse) {
 			jso = createJso(model.getJso(), cell.getJso(), collapse);
 		}
 	}
@@ -962,7 +962,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 		private mxVisibleChange() {
 		}
 
-		public mxVisibleChange(mxGraphModel model, mxCell cell, boolean visible) {
+		public mxVisibleChange(mxGraphModel model, mxICell cell, boolean visible) {
 			jso = createJso(model.getJso(), cell.getJso(), visible);
 		}
 	}
@@ -982,7 +982,7 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}
 
 	/**
-	 * Returns the style of the given {@link mxCell}.
+	 * Returns the style of the given {@link mxICell}.
 	 * 
 	 * @param cell
 	 * @return
@@ -993,14 +993,14 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}-*/;
 
 	/**
-	 * Sets the {@link mxGeometry} of the given {@link mxCell}. The actual update of the cell is carried out in <geometryForCellChanged>. The
+	 * Sets the {@link mxGeometry} of the given {@link mxICell}. The actual update of the cell is carried out in <geometryForCellChanged>. The
 	 * {@link mxGeometryChange} action is used to encapsulate the change.
 	 * 
 	 * @param cell
 	 * @param geometry
 	 * @return
 	 */
-	public native mxGeometry setGeometry(mxCell cell, mxGeometry geometry) /*-{
+	public native mxGeometry setGeometry(mxICell cell, mxGeometry geometry) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		var geometryJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(geometry);
 		var retvalJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setGeometry(cellJS, geometryJS);
@@ -1008,9 +1008,9 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}-*/;
 
 	/**
-	 * Returns true if the given {@link mxCell} is visible.
+	 * Returns true if the given {@link mxICell} is visible.
 	 * 
-	 * @param cell {@link mxCell} whose visible state should be returned.
+	 * @param cell {@link mxICell} whose visible state should be returned.
 	 * @return
 	 */
 	public native boolean isVisible(mxICell cell) /*-{
@@ -1019,9 +1019,9 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	}-*/;
 
 	/**
-	 * Sets the visible state of the given {@link mxCell} using {@link mxVisibleChange} and adds the change to the current transaction.
+	 * Sets the visible state of the given {@link mxICell} using {@link mxVisibleChange} and adds the change to the current transaction.
 	 * 
-	 * @param cell {@link mxCell} whose visible state should be changed.
+	 * @param cell {@link mxICell} whose visible state should be changed.
 	 * @param visible Boolean that specifies the new visible state.
 	 * @return
 	 */
@@ -1036,8 +1036,8 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 	 * considered to have no identity and are always cloned unless the cloneAllEdges flag is set to false, in which case edges with the same id in the target
 	 * model are reconnected to reflect the terminals of the source edges.
 	 * 
-	 * @param from source {@link mxCell}
-	 * @param to target {@link mxCell}
+	 * @param from source {@link mxICell}
+	 * @param to target {@link mxICell}
 	 * @param cloneAllEdges optional boolean specifying if all edges should be cloned
 	 */
 	public native void mergeChildren(mxICell from, mxICell to, Boolean cloneAllEdges) /*-{
@@ -1048,18 +1048,6 @@ public class mxGraphModel extends mxEventSource implements mxIGraphModel {
 
 	}-*/;
 
-	/**
-	 * Returns the source or target {@link mxCell} of the given edge depending on the value of the boolean parameter.
-	 * 
-	 * @param cell {@link mxCell} that specifies the edge.
-	 * @param isSource Boolean indicating which end of the edge should be returned.
-	 * @return
-	 */
-	public native mxICell getTerminal(mxICell cell, boolean isSource) /*-{
-		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
-		var retvalJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getTerminal(cellJS, isSource);
-		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(retvalJS);
-	}-*/;
 
 	/**
 	 * Executes the given edit and fires events if required. The edit object requires an execute function which is invoked. The edit is added to the

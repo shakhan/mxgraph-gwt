@@ -17,7 +17,8 @@ import com.mxgraph.gwt.client.view.mxGraph;
  * To avoid the container to scroll a moved cell into view, set <scrollAfterMove> to false.
  * 
  */
-public class mxGraphHandler implements IJavaScriptWrapper {
+public class mxGraphHandler implements IJavaScriptWrapper
+{
 
 	private JavaScriptObject jso;
 
@@ -25,29 +26,42 @@ public class mxGraphHandler implements IJavaScriptWrapper {
 		return new $wnd.mxGraphHandler(graph);
 	}-*/;
 
-	public static interface ShouldRemoveCellsFromParentCallback {
+	public static interface ShouldRemoveCellsFromParentCallback
+	{
 		boolean invoke(mxICell parent, List<mxICell> cells, NativeEvent event, ShouldRemoveCellsFromParentCallback old);
 	}
 
-	public static interface MoveCellsCallback {
+	public static interface MoveCellsCallback
+	{
 		List<mxICell> invoke(List<mxICell> cells, int dx, int dy, boolean clone, mxICell target, NativeEvent event, MoveCellsCallback old);
 	}
 
-	public static interface MouseMoveCallback {
+	public static interface MouseMoveCallback
+	{
 		void invoke(Object sender, mxMouseEvent me, MouseMoveCallback old);
 	}
 
-	@SuppressWarnings("unused") private static class DefaultCallback implements ShouldRemoveCellsFromParentCallback, MoveCellsCallback, MouseMoveCallback {
+	public static interface GetInitialCellForEventCallback
+	{
+		mxICell invoke(mxMouseEvent me, GetInitialCellForEventCallback old);
+	}
+
+	@SuppressWarnings("unused")
+	private static class DefaultCallback implements ShouldRemoveCellsFromParentCallback, MoveCellsCallback, MouseMoveCallback, GetInitialCellForEventCallback
+	{
 
 		JavaScriptObject graphHandler;
+
 		JavaScriptObject callback;
 
-		public DefaultCallback(mxGraphHandler graphHandler, JavaScriptObject callback) {
+		public DefaultCallback(mxGraphHandler graphHandler, JavaScriptObject callback)
+		{
 			this.graphHandler = graphHandler.jso;
 			this.callback = callback;
 		}
 
-		@Override public native boolean invoke(mxICell parent, List<mxICell> cells, NativeEvent event, ShouldRemoveCellsFromParentCallback old) /*-{
+		@Override
+		public native boolean invoke(mxICell parent, List<mxICell> cells, NativeEvent event, ShouldRemoveCellsFromParentCallback old) /*-{
 			var parentJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(parent);
 			var cellsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrapList(Ljava/util/List;)(cells);
 			return this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::callback.apply(
@@ -68,17 +82,31 @@ public class mxGraphHandler implements IJavaScriptWrapper {
 					this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::graphHandler, [ sender, meJS ]);
 		}-*/;
 
+		@Override
+		public native mxICell invoke(mxMouseEvent me, GetInitialCellForEventCallback old) /*-{
+			var meJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(me);
+			var cellJS = this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::callback.apply(
+					this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::graphHandler, [ meJS ]);
+
+			return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
+		}-*/;
+
 	}
 
-	@Override public JavaScriptObject getJso() {
+	@Override
+	public JavaScriptObject getJso()
+	{
 		return jso;
 	}
 
-	@Override public void setJso(JavaScriptObject jso) {
+	@Override
+	public void setJso(JavaScriptObject jso)
+	{
 		this.jso = jso;
 	}
 
-	private mxGraphHandler() {
+	private mxGraphHandler()
+	{
 	}
 
 	/**
@@ -86,7 +114,8 @@ public class mxGraphHandler implements IJavaScriptWrapper {
 	 * 
 	 * @param graph Reference to the enclosing {@link mxGraph}.
 	 */
-	public mxGraphHandler(mxGraph graph) {
+	public mxGraphHandler(mxGraph graph)
+	{
 		jso = createJso(graph.getJso());
 	}
 
@@ -156,6 +185,19 @@ public class mxGraphHandler implements IJavaScriptWrapper {
 		};
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).mouseMove = funct;
+	}-*/;
+
+	public native void setGetInitialCellForEventCallback(GetInitialCellForEventCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getInitialCellForEvent;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxGraphHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function(me) {
+			var meJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(me);
+			var cellJ = callback.@com.mxgraph.gwt.client.handler.mxGraphHandler.GetInitialCellForEventCallback::invoke(Lcom/mxgraph/gwt/client/util/mxMouseEvent;Lcom/mxgraph/gwt/client/handler/mxGraphHandler$GetInitialCellForEventCallback;)(meJ, oldJ);
+			return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cellJ);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getInitialCellForEvent = funct;
 	}-*/;
 
 	/**

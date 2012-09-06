@@ -120,6 +120,11 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 		boolean invoke(mxICell cell, IsCellLockedCallback old);
 	}
 
+	public static interface IsValidRootCallback
+	{
+		boolean invoke(mxICell cell, IsValidRootCallback old);
+	}
+
 	/**
 	 * Class that implements every callback interface. For each callback, instance of this class is initialized with the JavaScriptObject that represents the
 	 * default implementation of underlying function. End users are presented with default callback each time they redefine the default implementation of a
@@ -129,7 +134,7 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 	@SuppressWarnings("unused")
 	private static class DefaultCallback implements GetTooltipForCellCallback, IsCellFoldableCallback, CreateGroupCellCallback, FireMouseEventCallback, ClickCallback, DblClickCallback,
 			IsValidDropTargetCallback, IsValidSourceCallback, IsValidTargetCallback, IsCellEditableCallback, MoveCellsCallback, ConvertValueToStringCallback, CellLabelChangedCallback,
-			GetEditingValueCallback, IsCellLockedCallback
+			GetEditingValueCallback, IsCellLockedCallback, IsValidRootCallback
 	{
 
 		JavaScriptObject graph;
@@ -232,16 +237,17 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 					[ cellJS, evt ]);
 		}-*/;
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see com.mxgraph.gwt.client.view.mxGraph.CellLockedCallback#invoke(com.mxgraph.gwt.client.model.mxICell)
-		 */
-		@Override
 		public native boolean invoke(mxICell cell, IsCellLockedCallback old) /*-{
 			var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 			return this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::callback.apply(this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::graph,
 					[ cellJS ]);
+		}-*/;
+
+		public native boolean invoke(mxICell cell, IsValidRootCallback old) /*-{
+			var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
+			return this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::callback.apply(this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::graph,
+					[ cellJS ]);
+
 		}-*/;
 
 	}
@@ -504,6 +510,19 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isCellLocked = funct;
 	}-*/;
+	
+	public native void setIsValidRootCallback(IsValidRootCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidRoot;
+		var oldJ = @com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::new(Lcom/mxgraph/gwt/client/view/mxGraph;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+
+		var funct = function(cell) {
+			var cellJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cell);
+			return callback.@com.mxgraph.gwt.client.view.mxGraph.IsValidRootCallback::invoke(Lcom/mxgraph/gwt/client/model/mxICell;Lcom/mxgraph/gwt/client/view/mxGraph$IsValidRootCallback;)(cellJ, oldJ);
+		};
+	
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidRoot = funct;
+	}-*/;
+
 
 	private native JavaScriptObject createJso(Element container, JavaScriptObject model, String renderHint, JavaScriptObject stylesheet) /*-{
 		return new $wnd.mxGraph(container, model, renderHint, stylesheet);
@@ -1906,11 +1925,11 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 				listener.@com.mxgraph.gwt.client.util.mxMouseEvent.mxIMouseListener::onMouseMove(Ljava/lang/Object;Lcom/mxgraph/gwt/client/util/mxMouseEvent;)(senderJ, meJ);
 			}
 		};
-		
+
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).addMouseListener(listenerJS);
-		
+
 	}-*/;
-	
+
 	/**
 	 * Gets the state of the mouse button.
 	 * 
@@ -1918,6 +1937,18 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 	 */
 	public native boolean getIsMouseDown() /*-{
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isMouseDown;
+	}-*/;
+
+	/**
+	 * Returns true if the given cell is a valid root for the cell display
+	* hierarchy. 
+	 * 
+	 * @param cell  {@link mxICell} which should be checked as a possible root.
+	 * @return
+	 */
+	public native boolean isValidRoot(mxICell cell) /*-{
+		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidRoot(cellJS);
 	}-*/;
 
 }
