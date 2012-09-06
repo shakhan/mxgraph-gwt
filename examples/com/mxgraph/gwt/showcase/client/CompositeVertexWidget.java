@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.mxgraph.gwt.client.handler.mxGraphHandler.GetInitialCellForEventCallback;
 import com.mxgraph.gwt.client.handler.mxGraphHandler.ShouldRemoveCellsFromParentCallback;
@@ -32,6 +33,8 @@ public class CompositeVertexWidget extends AbstractContentWidget
 		panel.setWidget(graph);
 
 		Examples.loadDefaultStyle(graph);
+		graph.getElement().getStyle().setBackgroundImage("url('images/grid.gif')");
+		graph.getElement().getStyle().setHeight(100, Unit.PCT);
 		graph.setFoldingEnabled(false);
 		graph.setConstrainChildren(false);
 		graph.setExtendParents(false);
