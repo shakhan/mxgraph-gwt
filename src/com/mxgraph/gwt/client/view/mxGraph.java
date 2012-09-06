@@ -510,7 +510,7 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isCellLocked = funct;
 	}-*/;
-	
+
 	public native void setIsValidRootCallback(IsValidRootCallback callback) /*-{
 		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidRoot;
 		var oldJ = @com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::new(Lcom/mxgraph/gwt/client/view/mxGraph;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
@@ -519,10 +519,9 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 			var cellJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cell);
 			return callback.@com.mxgraph.gwt.client.view.mxGraph.IsValidRootCallback::invoke(Lcom/mxgraph/gwt/client/model/mxICell;Lcom/mxgraph/gwt/client/view/mxGraph$IsValidRootCallback;)(cellJ, oldJ);
 		};
-	
+
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidRoot = funct;
 	}-*/;
-
 
 	private native JavaScriptObject createJso(Element container, JavaScriptObject model, String renderHint, JavaScriptObject stylesheet) /*-{
 		return new $wnd.mxGraph(container, model, renderHint, stylesheet);
@@ -1835,7 +1834,7 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 	}-*/;
 
 	/**
-	 * Sets if any cell may be moved, sized, bended, disconnected, edited or selected.
+	 * Specifies if any cell may be moved, sized, bended, disconnected, edited or selected.
 	 * 
 	 * @param value Boolean that defines the new value for cellsLocked.
 	 */
@@ -1907,6 +1906,12 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(ceJS);
 	}-*/;
 
+	/**
+	 * Adds a listener to the graph event dispatch loop. The listener
+	 * must implement the mouseDown, mouseMove and mouseUp methods
+	 * as shown in the {@link mxMouseEvent} class.
+	 * @param listener listener to be added to the graph event listeners.
+	 */
 	public native void addMouseListener(mxMouseEvent.mxIMouseListener<?> listener) /*-{
 		var listenerJS = {
 			mouseDown : function(sender, me) {
@@ -1949,6 +1954,62 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 	public native boolean isValidRoot(mxICell cell) /*-{
 		var cellJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cell);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidRoot(cellJS);
+	}-*/;
+
+	/**
+	 * Returns true if children of the container cell should be constrained
+	 * @return
+	 */
+	public native boolean isConstrainChildren() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isConstrainChildren();
+	}-*/;
+
+	/**
+	 * Sets the value of constrainChildren flag
+	 * @param value
+	 */
+	public native void setConstrainChildren(boolean value) /*-{
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setConstrainChildren(value);
+	}-*/;
+
+	/**
+	 * Specifies if a parent should contain the child bounds after a resize of
+	* the child.
+	 * 
+	 * @param value
+	 */
+	public native void setExtendParents(boolean value) /*-{
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setExtendParents(value);
+	}-*/;
+
+	/**
+	 * Returns true if a parent should contain the child bounds after a resize of
+	* the child. Default is true.
+	 * 
+	 * @return
+	 */
+	public native boolean isExtendParents() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isExtendParents();
+	}-*/;
+
+	/**
+	 * Specifies if parents should be extended according to the extendParents
+	* switch if cells are added. 
+	 * 
+	 * @param value
+	 */
+	public native void setExtendParentsOnAdd(boolean value) /*-{
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setExtendParentsOnAdd(value);
+	}-*/;
+
+	/**
+	 * Returns true if parents should be extended according to the extendParents
+	* switch if cells are added. Default is true.
+	 * 
+	 * @return
+	 */
+	public native boolean isExtendParentsOnAdd() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isExtendParentsOnAdd();
 	}-*/;
 
 }

@@ -11,10 +11,7 @@ import com.mxgraph.gwt.client.view.mxCellState;
  * Base class for all mouse events in mxGraph.
  * 
  */
-/**
- * @author boris
- *
- */
+
 public class mxMouseEvent implements IJavaScriptWrapper {
 
 	private JavaScriptObject jso;
