@@ -1,6 +1,7 @@
 <project name="MxGraph" default="all" basedir="." >
 	
 	<property environment="env"/>
+	<loadfile property="version" srcFile="VERSION" />
 
 	<!-- ===================== GWT Environment =========================== -->
 	<property name="gwt.args" value="" />
@@ -35,7 +36,7 @@
 	<target name="gwtc">
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
-				<pathelement location="${dist.dir}/mxGraph-gwt.jar" />
+				<pathelement location="${dist.dir}/mxGraph-gwt-${version}.jar" />
 				<pathelement location="${examples.dir}" />
 				<path refid="gwt.class.path" />
 			</classpath>
@@ -72,7 +73,7 @@
 	<!-- ========= Creates a full version of mxGraph-GWT library ================== -->
 
 	<target name="dist" depends="javac">
-		<jar destfile="${dist.dir}/mxGraph-gwt.jar">
+		<jar destfile="${dist.dir}/mxGraph-gwt-${version}.jar">
 			<fileset dir="${src.dir}">
 				
 			</fileset>
