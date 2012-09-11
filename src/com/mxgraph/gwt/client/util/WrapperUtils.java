@@ -23,9 +23,21 @@ import com.mxgraph.gwt.client.model.mxGraphModel.mxTerminalChange;
 import com.mxgraph.gwt.client.model.mxGraphModel.mxValueChange;
 import com.mxgraph.gwt.client.model.mxGraphModel.mxVisibleChange;
 import com.mxgraph.gwt.client.model.mxPoint;
+import com.mxgraph.gwt.client.shape.mxActor;
+import com.mxgraph.gwt.client.shape.mxCloud;
+import com.mxgraph.gwt.client.shape.mxConnector;
+import com.mxgraph.gwt.client.shape.mxCylinder;
+import com.mxgraph.gwt.client.shape.mxDoubleEllipse;
 import com.mxgraph.gwt.client.shape.mxEllipse;
+import com.mxgraph.gwt.client.shape.mxImageShape;
+import com.mxgraph.gwt.client.shape.mxLabel;
+import com.mxgraph.gwt.client.shape.mxLine;
+import com.mxgraph.gwt.client.shape.mxMarker;
 import com.mxgraph.gwt.client.shape.mxPolyline;
 import com.mxgraph.gwt.client.shape.mxRectangleShape;
+import com.mxgraph.gwt.client.shape.mxRhombus;
+import com.mxgraph.gwt.client.shape.mxSwimlane;
+import com.mxgraph.gwt.client.shape.mxText;
 import com.mxgraph.gwt.client.util.mxDragSource.DropHandler;
 import com.mxgraph.gwt.client.util.mxDragSource.DropTargetHandler;
 import com.mxgraph.gwt.client.util.mxDragSource.GuidesEnabledHandler;
@@ -153,6 +165,30 @@ public class WrapperUtils {
 			wrapper = GWT.create(mxPolyline.class);
 		}  else if (className.equals(getSimpleName(mxEllipse.class))) {
 			wrapper = GWT.create(mxEllipse.class);
+		}  else if (className.equals(getSimpleName(mxActor.class))) {
+			wrapper = GWT.create(mxActor.class);
+		} else if (className.equals(getSimpleName(mxCloud.class))) {
+			wrapper = GWT.create(mxCloud.class);
+		} else if (className.equals(getSimpleName(mxCylinder.class))) {
+			wrapper = GWT.create(mxCylinder.class);
+		} else if (className.equals(getSimpleName(mxConnector.class))) {
+			wrapper = GWT.create(mxConnector.class);
+		} else if (className.equals(getSimpleName(mxDoubleEllipse.class))) {
+			wrapper = GWT.create(mxDoubleEllipse.class);
+		} else if (className.equals(getSimpleName(mxImageShape.class))) {
+			wrapper = GWT.create(mxImageShape.class);
+		} else if (className.equals(getSimpleName(mxLabel.class))) {
+			wrapper = GWT.create(mxLabel.class);
+		} else if (className.equals(getSimpleName(mxLine.class))) {
+			wrapper = GWT.create(mxLine.class);
+		} else if (className.equals(getSimpleName(mxMarker.class))) {
+			wrapper = GWT.create(mxMarker.class);
+		} else if (className.equals(getSimpleName(mxSwimlane.class))) {
+			wrapper = GWT.create(mxSwimlane.class);
+		} else if (className.equals(getSimpleName(mxText.class))) {
+			wrapper = GWT.create(mxText.class);
+		} else if (className.equals(getSimpleName(mxRhombus.class))) {
+			wrapper = GWT.create(mxRhombus.class);
 		}
 
 		return wrapper;
