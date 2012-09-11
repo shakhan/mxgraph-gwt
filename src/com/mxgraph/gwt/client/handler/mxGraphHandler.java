@@ -6,6 +6,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.NativeEvent;
 import com.mxgraph.gwt.client.IJavaScriptWrapper;
 import com.mxgraph.gwt.client.model.mxICell;
+import com.mxgraph.gwt.client.shape.mxShape;
 import com.mxgraph.gwt.client.util.mxMouseEvent;
 import com.mxgraph.gwt.client.util.mxRectangle;
 import com.mxgraph.gwt.client.view.mxGraph;
@@ -253,6 +254,18 @@ public class mxGraphHandler implements IJavaScriptWrapper
 
 	public native void setCurrentY(int currentY) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).currentX = currentY;
+	}-*/;
+	
+	/**
+	 * Creates the shape used to draw the preview for the given bounds.
+	 * 
+	 * @param bounds
+	 * @return
+	 */
+	public native mxShape createPreviewShape(mxRectangle bounds) /*-{
+		var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(bounds);
+		var shapeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createPreviewShape(boundsJS);
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(shapeJS);
 	}-*/;
 
 }
