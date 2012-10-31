@@ -1,4 +1,4 @@
-<project name="MxGraph" default="all" basedir="." >
+<project name="mxgraph-gwt" default="all" basedir="." >
 	
 	<property environment="env"/>
 	<loadfile property="version" srcFile="VERSION" />
