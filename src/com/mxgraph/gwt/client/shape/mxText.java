@@ -23,6 +23,11 @@ public class mxText extends mxShape {
 				horizontal, background, border, wrap, clipped, overflow);
 
 	}-*/;
+	
+	protected mxText()
+	{
+		super();
+	}
 
 	/**
 	 * Constructs a new text shape.

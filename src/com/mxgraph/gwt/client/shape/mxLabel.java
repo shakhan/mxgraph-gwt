@@ -16,6 +16,11 @@ public class mxLabel extends mxShape {
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
 		return new $wnd.mxLabel(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
+	
+	protected mxLabel()
+	{
+		super();
+	}
 
 	/**
 	 * Constructs a new label shape.

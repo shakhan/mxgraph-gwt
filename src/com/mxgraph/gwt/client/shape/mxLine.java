@@ -14,6 +14,11 @@ public class mxLine extends mxShape {
 		return new $wnd.mxLine(boundsJS, fill, strokeWidthJS);
 	}-*/;
 	
+	protected mxLine()
+	{
+		super();
+	}
+
 	private mxLine(JavaScriptObject jso) {
 		this.jso = jso;
 	}

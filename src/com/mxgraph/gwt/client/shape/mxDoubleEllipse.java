@@ -17,6 +17,13 @@ public class mxDoubleEllipse extends mxShape {
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
 		return new $wnd.mxDoubleEllipse(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
+	
+	
+
+	protected mxDoubleEllipse()
+	{
+		super();
+	}
 
 	/**
 	 * Constructs a new double ellipse shape.

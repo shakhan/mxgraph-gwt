@@ -17,6 +17,11 @@ public class mxRhombus extends mxShape {
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
 		return new $wnd.mxRhombus(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
+	
+	protected mxRhombus()
+	{
+		super();
+	}
 
 	/**
 	 * Constructs a new rhombus shape.

@@ -11,6 +11,11 @@ public class mxImageShape extends mxShape {
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
 		return new $wnd.mxImageShape(boundsJS, image, fill, stroke, strokeWidthJS);
 	}-*/;
+	
+	protected mxImageShape()
+	{
+		super();
+	}
 
 	/**
 	 * Constructs a new image shape.

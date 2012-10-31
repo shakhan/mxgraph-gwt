@@ -13,6 +13,13 @@ public class mxCloud extends mxShape {
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
 		return new $wnd.mxCloud(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
+	
+	protected mxCloud()
+	{
+		super();
+	}
+
+
 
 	/**
 	 * Constructs a new cloud shape.

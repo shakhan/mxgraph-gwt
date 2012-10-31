@@ -18,6 +18,12 @@ public class mxConnector extends mxShape {
 		return new $wnd.mxConnector(pointsJS, stroke, strokeWidthJS);
 	}-*/;
 	
+	
+	protected mxConnector()
+	{
+		super();
+	}
+
 	/**
 	 * @param points Array of {@link mxPoints} that define the points.
 	 * @param stroke String that defines the stroke color.

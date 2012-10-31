@@ -16,6 +16,11 @@ public class mxSwimlane extends mxShape {
 		return new $wnd.mxSwimlane(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
 
+	protected mxSwimlane()
+	{
+		super();
+	}
+
 	/**
 	 * Constructs a new swimlane shape.
 	 * 
