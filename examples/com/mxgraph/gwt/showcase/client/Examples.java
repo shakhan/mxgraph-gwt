@@ -30,6 +30,8 @@ public class Examples implements EntryPoint {
 		sc.add(new UserObjectWidget("User object as cell value", sc));
 		sc.add(new CustomEditingBox("Custom editing box", sc));
 		sc.add(new CustomCellHoverStyle("Custom cell hover style", sc));
+		sc.add(new CustomDragPreview("Custom drag preview", sc));
+		
 		
 		RootLayoutPanel.get().add(sc);
 	}

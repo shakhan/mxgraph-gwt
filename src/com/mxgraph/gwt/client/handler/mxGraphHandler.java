@@ -6,6 +6,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.NativeEvent;
 import com.mxgraph.gwt.client.IJavaScriptWrapper;
 import com.mxgraph.gwt.client.model.mxICell;
+import com.mxgraph.gwt.client.shape.mxRectangleShape;
 import com.mxgraph.gwt.client.shape.mxShape;
 import com.mxgraph.gwt.client.util.mxMouseEvent;
 import com.mxgraph.gwt.client.util.mxRectangle;
@@ -46,9 +47,15 @@ public class mxGraphHandler implements IJavaScriptWrapper
 	{
 		mxICell invoke(mxMouseEvent me, GetInitialCellForEventCallback old);
 	}
+	
+	public static interface CreatePreviewShapeCallback 
+	{
+		mxShape invoke(mxRectangle bounds, CreatePreviewShapeCallback old);
+	}
 
 	@SuppressWarnings("unused")
-	private static class DefaultCallback implements ShouldRemoveCellsFromParentCallback, MoveCellsCallback, MouseMoveCallback, GetInitialCellForEventCallback
+	private static class DefaultCallback implements ShouldRemoveCellsFromParentCallback, MoveCellsCallback, MouseMoveCallback,
+			GetInitialCellForEventCallback, CreatePreviewShapeCallback
 	{
 
 		JavaScriptObject graphHandler;
@@ -69,11 +76,13 @@ public class mxGraphHandler implements IJavaScriptWrapper
 					this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::graphHandler, [ parentJS, cellsJS, event ]);
 		}-*/;
 
-		public native List<mxICell> invoke(List<mxICell> cells, int dx, int dy, boolean clone, mxICell target, NativeEvent event, MoveCellsCallback old) /*-{
+		public native List<mxICell> invoke(List<mxICell> cells, int dx, int dy, boolean clone, mxICell target, NativeEvent event,
+				MoveCellsCallback old) /*-{
 			var cellsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrapList(Ljava/util/List;)(cells);
 			var targetJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(target);
 			var retvalJS = this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::callback.apply(
-					this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::graphHandler, [ cellsJS, dx, dy, clone, targetJS, event ]);
+					this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::graphHandler, [ cellsJS, dx, dy, clone, targetJS,
+							event ]);
 			return @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(retvalJS);
 		}-*/;
 
@@ -91,6 +100,17 @@ public class mxGraphHandler implements IJavaScriptWrapper
 
 			return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
 		}-*/;
+
+		@Override
+		public native mxShape invoke(mxRectangle bounds, CreatePreviewShapeCallback old) /*-{
+			var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(bounds);
+			var cellJS = this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::callback.apply(
+					this.@com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::graphHandler, [ boundsJS ]);
+
+			return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS); 
+		}-*/;
+		
+		
 
 	}
 
@@ -147,7 +167,8 @@ public class mxGraphHandler implements IJavaScriptWrapper
 		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).shouldRemoveCellsFromParent;
 		var oldJ = @com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxGraphHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
 
-		var funct = function(parent, cells, event) {
+		var funct = function(parent, cells, event)
+		{
 			var parentJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(parent);
 			var cellsJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(cells);
 			return callback.@com.mxgraph.gwt.client.handler.mxGraphHandler.ShouldRemoveCellsFromParentCallback::invoke(Lcom/mxgraph/gwt/client/model/mxICell;Ljava/util/List;Lcom/google/gwt/dom/client/NativeEvent;Lcom/mxgraph/gwt/client/handler/mxGraphHandler$ShouldRemoveCellsFromParentCallback;)(parentJ, cellsJ, event, oldJ);
@@ -165,7 +186,8 @@ public class mxGraphHandler implements IJavaScriptWrapper
 		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).moveCells;//get the default implementation of the function
 		var oldJ = @com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxGraphHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
 
-		var funct = function(cells, dx, dy, clone, target, evt) {
+		var funct = function(cells, dx, dy, clone, target, evt)
+		{
 			var cellsJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrapList(Lcom/google/gwt/core/client/JavaScriptObject;)(cells);
 			var targetJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(target);
 			var retvalJ = callback.@com.mxgraph.gwt.client.handler.mxGraphHandler.MoveCellsCallback::invoke(Ljava/util/List;IIZLcom/mxgraph/gwt/client/model/mxICell;Lcom/google/gwt/dom/client/NativeEvent;Lcom/mxgraph/gwt/client/handler/mxGraphHandler$MoveCellsCallback;)(cellsJ, dx, dy, clone, targetJ, evt, oldJ);
@@ -179,7 +201,8 @@ public class mxGraphHandler implements IJavaScriptWrapper
 		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).mouseMove;
 		var oldJ = @com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxGraphHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
 
-		var funct = function(sender, me) {
+		var funct = function(sender, me)
+		{
 			var meJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(me);
 			callback.@com.mxgraph.gwt.client.handler.mxGraphHandler.MouseMoveCallback::invoke(Ljava/lang/Object;Lcom/mxgraph/gwt/client/util/mxMouseEvent;Lcom/mxgraph/gwt/client/handler/mxGraphHandler$MouseMoveCallback;)(sender, meJ, oldJ);
 
@@ -192,13 +215,29 @@ public class mxGraphHandler implements IJavaScriptWrapper
 		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getInitialCellForEvent;
 		var oldJ = @com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxGraphHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
 
-		var funct = function(me) {
+		var funct = function(me)
+		{
 			var meJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(me);
 			var cellJ = callback.@com.mxgraph.gwt.client.handler.mxGraphHandler.GetInitialCellForEventCallback::invoke(Lcom/mxgraph/gwt/client/util/mxMouseEvent;Lcom/mxgraph/gwt/client/handler/mxGraphHandler$GetInitialCellForEventCallback;)(meJ, oldJ);
 			return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(cellJ);
 		};
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getInitialCellForEvent = funct;
+	}-*/;
+	
+	public native void setCreatePreviewShapeCallback(CreatePreviewShapeCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createPreviewShape;
+		var oldJ = @com.mxgraph.gwt.client.handler.mxGraphHandler.DefaultCallback::new(Lcom/mxgraph/gwt/client/handler/mxGraphHandler;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+		
+		var funct = function(bounds)
+		{
+			var boundsJ = @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(bounds);
+			var shapeJ = callback.@com.mxgraph.gwt.client.handler.mxGraphHandler.CreatePreviewShapeCallback::invoke(Lcom/mxgraph/gwt/client/util/mxRectangle;Lcom/mxgraph/gwt/client/handler/mxGraphHandler$CreatePreviewShapeCallback;)(boundsJ, oldJ);
+			return  @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(shapeJ);
+		}
+		
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createPreviewShape = funct;
+		
 	}-*/;
 
 	/**
@@ -207,7 +246,8 @@ public class mxGraphHandler implements IJavaScriptWrapper
 	 * @return
 	 */
 	public native boolean isRemoveCellsFromParent() /*-{
-		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isRemoveCellsFromParent();
+		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this)
+				.isRemoveCellsFromParent();
 	}-*/;
 
 	/**
@@ -216,7 +256,8 @@ public class mxGraphHandler implements IJavaScriptWrapper
 	 * @param value
 	 */
 	public native void setRemoveCellsFromParent(boolean value) /*-{
-		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setRemoveCellsFromParent(value);
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this)
+				.setRemoveCellsFromParent(value);
 	}-*/;
 
 	/**
@@ -236,7 +277,7 @@ public class mxGraphHandler implements IJavaScriptWrapper
 	}-*/;
 
 	public native mxRectangle getBounds()/*-{
-		var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).bounds
+		var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).bounds;
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(boundsJS);
 	}-*/;
 
@@ -255,7 +296,7 @@ public class mxGraphHandler implements IJavaScriptWrapper
 	public native void setCurrentY(int currentY) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).currentX = currentY;
 	}-*/;
-	
+
 	/**
 	 * Creates the shape used to draw the preview for the given bounds.
 	 * 
@@ -264,8 +305,25 @@ public class mxGraphHandler implements IJavaScriptWrapper
 	 */
 	public native mxShape createPreviewShape(mxRectangle bounds) /*-{
 		var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(bounds);
-		var shapeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).createPreviewShape(boundsJS);
+		var shapeJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this)
+				.createPreviewShape(boundsJS);
 		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(shapeJS);
+	}-*/;
+	
+	/**
+	 * Returns the color of the preview shape. Default is black.
+	 * @return
+	 */
+	public native String getPreviewColor() /*-{
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(this).getPreviewColor();
+	}-*/;
+	
+	/**
+	 * @return
+	 */
+	public native mxICell getCell() /*-{
+		var cellJS =  @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).cell
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(cellJS);
 	}-*/;
 
 }

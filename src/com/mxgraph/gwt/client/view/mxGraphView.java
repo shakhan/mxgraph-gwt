@@ -1,7 +1,7 @@
 package com.mxgraph.gwt.client.view;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.dom.client.Node;
 
 import com.mxgraph.gwt.client.model.mxICell;
@@ -150,6 +150,15 @@ public class mxGraphView extends mxEventSource {
 	 */
 	public native Element getCanvas() /*-{
 		return @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getCanvas();
+	}-*/;
+	
+	/**
+	 * Returns the DOM node that represents the topmost drawing layer.
+	 * 
+	 * @return
+	 */
+	public native Element getOverlayPane() /*-{
+		return  @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getOverlayPane();
 	}-*/;
 
 }
