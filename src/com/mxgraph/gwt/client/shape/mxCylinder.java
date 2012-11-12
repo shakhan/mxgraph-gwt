@@ -12,10 +12,10 @@ import com.mxgraph.gwt.client.view.mxCellState;
  */
 public class mxCylinder extends mxShape {
 
-	private native JavaScriptObject createJso(mxRectangle bounds, String fill, double stroke, Integer strokewidth) /*-{
+	private native JavaScriptObject createJso(mxRectangle bounds, String fill, String stroke, Integer strokeWidth) /*-{
 		var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(bounds);
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
-		return new $wnd.mxCylinder(boundsJS, fill, stroke, strokeWidth);
+		return new $wnd.mxCylinder(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
 	
 	private native JavaScriptObject createJso() /*-{
@@ -37,7 +37,7 @@ public class mxCylinder extends mxShape {
 	 * @param stroke String that defines the stroke color.
 	 * @param strokewidth Optional integer that defines the stroke width. Default is 1.
 	 */
-	public mxCylinder(mxRectangle bounds, String fill, double stroke, Integer strokewidth) {
+	public mxCylinder(mxRectangle bounds, String fill, String stroke, Integer strokewidth) {
 		jso = createJso(bounds, fill, stroke, strokewidth);
 	}
 

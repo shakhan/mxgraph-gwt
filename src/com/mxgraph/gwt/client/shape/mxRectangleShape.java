@@ -11,10 +11,10 @@ import com.mxgraph.gwt.client.util.mxRectangle;
  */
 public class mxRectangleShape extends mxShape {
 
-	private native JavaScriptObject createJso(mxRectangle bounds,String fill,String stroke,Integer strokewidth) /*-{
+	private native JavaScriptObject createJso(mxRectangle bounds,String fill,String stroke,Integer strokeWidth) /*-{
 		var boundsJS = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(bounds);
 		var strokeWidthJS = strokeWidth != null ? strokeWidth.@java.lang.Integer::intValue()() : null;
-		return new $wnd.mxRectangleShape(boundsJS, fill, stroke, strokeWidth);
+		return new $wnd.mxRectangleShape(boundsJS, fill, stroke, strokeWidthJS);
 	}-*/;
 	
 	private mxRectangleShape() {
