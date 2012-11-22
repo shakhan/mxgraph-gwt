@@ -73,5 +73,12 @@ public class mxTooltipHandler implements IJavaScriptWrapper {
 	public native void setEnabled(boolean enabled) /*-{
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).enabled = enabled;
 	}-*/;
+	
+	/**
+	 * Hides the tooltip and resets the timer.
+	 */
+	public native void hide() /*-{
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).hide();
+	}-*/;
 
 }
