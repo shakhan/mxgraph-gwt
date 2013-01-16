@@ -13,9 +13,12 @@ import com.mxgraph.gwt.client.model.mxCell;
 import com.mxgraph.gwt.client.model.mxGeometry;
 import com.mxgraph.gwt.client.model.mxGraphModel;
 import com.mxgraph.gwt.client.model.mxICell;
+import com.mxgraph.gwt.client.model.mxPoint;
 import com.mxgraph.gwt.client.util.mxMouseEvent;
 import com.mxgraph.gwt.client.view.mxGraph;
 import com.mxgraph.gwt.client.view.mxGraph.IsCellLockedCallback;
+import com.mxgraph.gwt.client.view.mxGraph.PanGraphCallback;
+import com.mxgraph.gwt.client.view.mxGraphView.SetTranslateCallback;
 
 public class CompositeVertexWidget extends AbstractContentWidget
 {
@@ -23,7 +26,7 @@ public class CompositeVertexWidget extends AbstractContentWidget
 	public CompositeVertexWidget(String name, Showcase showcase)
 	{
 		super(name, showcase);
-		description = "Shows a couple of ways of creating a composite vertex";
+		description = "Shows a couple of ways of creating a composite vertex. Also demonstrates how to limit panning. Use left mouse button to pan around.";
 	}
 
 	@Override
@@ -31,7 +34,7 @@ public class CompositeVertexWidget extends AbstractContentWidget
 	{
 		final mxGraph graph = new mxGraph();
 		panel.setWidget(graph);
-
+		
 		Examples.loadDefaultStyle(graph);
 		graph.getElement().getStyle().setBackgroundImage("url('images/grid.gif')");
 		graph.getElement().getStyle().setHeight(100, Unit.PCT);
@@ -39,6 +42,35 @@ public class CompositeVertexWidget extends AbstractContentWidget
 		graph.setConstrainChildren(false);
 		graph.setExtendParents(false);
 		graph.setExtendParentsOnAdd(false);
+		
+		graph.getPanningHandler().setUseLeftButtonForPanning(true);
+		graph.setPanning(true);
+
+		//limits the panning to 200px in each direction
+		graph.setPanGraphCallback(new PanGraphCallback()
+		{
+			@Override
+			public void invoke(int dx, int dy, PanGraphCallback callback)
+			{
+				mxPoint tr = graph.getView().getTranslate();
+				dx = Math.max(0, Math.min(200, dx + (int)tr.getX())) - (int)tr.getX();
+				dy = Math.max(0, Math.min(200, dy + (int)tr.getY())) - (int)tr.getY();
+				
+				callback.invoke(dx, dy, null);
+			}
+		});
+		//updates the translation as a part of panning limit
+		graph.getView().setSetTranslateCallback(new SetTranslateCallback()
+		{
+			@Override
+			public void invoke(int dx, int dy, SetTranslateCallback callback)
+			{
+				dx = Math.max(0, Math.min(200, dx));
+				dy = Math.max(0, Math.min(200, dy));
+				
+				callback.invoke(dx, dy, null);
+			}
+		});
 
 		mxICell composite1 = new mxCell("Composite #1", new mxGeometry(0, 0, 150, 150), "");
 		composite1.setVertex(true);

@@ -124,6 +124,11 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 	{
 		boolean invoke(mxICell cell, IsValidRootCallback old);
 	}
+	
+	public static interface PanGraphCallback
+	{
+		void invoke(int dx, int dy, PanGraphCallback callback);
+	}
 
 	/**
 	 * Class that implements every callback interface. For each callback, instance of this class is initialized with the JavaScriptObject that represents the
@@ -134,7 +139,7 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 	@SuppressWarnings("unused")
 	private static class DefaultCallback implements GetTooltipForCellCallback, IsCellFoldableCallback, CreateGroupCellCallback, FireMouseEventCallback, ClickCallback, DblClickCallback,
 			IsValidDropTargetCallback, IsValidSourceCallback, IsValidTargetCallback, IsCellEditableCallback, MoveCellsCallback, ConvertValueToStringCallback, CellLabelChangedCallback,
-			GetEditingValueCallback, IsCellLockedCallback, IsValidRootCallback
+			GetEditingValueCallback, IsCellLockedCallback, IsValidRootCallback, PanGraphCallback
 	{
 
 		JavaScriptObject graph;
@@ -249,6 +254,14 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 					[ cellJS ]);
 
 		}-*/;
+
+		@Override
+		public native void invoke(int dx, int dy, PanGraphCallback callback) /*-{
+			this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::callback.apply(this.@com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::graph,
+					[ dx, dy ]);
+		}-*/;
+		
+		
 
 	}
 
@@ -521,6 +534,18 @@ public class mxGraph extends mxEventSource implements HasContextMenuHandlers
 		};
 
 		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).isValidRoot = funct;
+	}-*/;
+	
+	public native void setPanGraphCallback(PanGraphCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).panGraph;
+		var oldJ = @com.mxgraph.gwt.client.view.mxGraph.DefaultCallback::new(Lcom/mxgraph/gwt/client/view/mxGraph;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+		
+		var funct = function(dx , dy) {
+			return callback.@com.mxgraph.gwt.client.view.mxGraph.PanGraphCallback::invoke(IILcom/mxgraph/gwt/client/view/mxGraph$PanGraphCallback;)(dx, dy, oldJ);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).panGraph = funct;
+		
 	}-*/;
 
 	private native JavaScriptObject createJso(Element container, JavaScriptObject model, String renderHint, JavaScriptObject stylesheet) /*-{

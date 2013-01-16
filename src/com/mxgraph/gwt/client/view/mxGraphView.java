@@ -42,6 +42,40 @@ public class mxGraphView extends mxEventSource {
 	private native JavaScriptObject createJso(JavaScriptObject graph) /*-{
 		return new $wnd.mxGraphView(graph);
 	}-*/;
+	
+	public static interface SetTranslateCallback 
+	{
+		void invoke(int dx, int dy, SetTranslateCallback callback);
+	}
+	
+	@SuppressWarnings("unused")
+	private static class DefaultCallback implements SetTranslateCallback 
+	{
+		JavaScriptObject graphView;
+		JavaScriptObject callback;
+		
+		public DefaultCallback(mxGraphView graphView, JavaScriptObject callback)
+		{
+			this.graphView = graphView.jso;
+			this.callback = callback;
+		}
+
+		@Override
+		public native void invoke(int dx, int dy, SetTranslateCallback callback) /*-{
+			this.@com.mxgraph.gwt.client.view.mxGraphView.DefaultCallback::callback.apply(this.@com.mxgraph.gwt.client.view.mxGraphView.DefaultCallback::graphView, [dx ,dy]);
+		}-*/;
+	}
+	
+	public native void setSetTranslateCallback(SetTranslateCallback callback) /*-{
+		var old = @com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setTranslate;//get the default implementation of the function
+		var oldJ = @com.mxgraph.gwt.client.view.mxGraphView.DefaultCallback::new(Lcom/mxgraph/gwt/client/view/mxGraphView;Lcom/google/gwt/core/client/JavaScriptObject;)(this, old);
+		
+		var funct = function(dx, dy) {
+			callback.@com.mxgraph.gwt.client.view.mxGraphView.SetTranslateCallback::invoke(IILcom/mxgraph/gwt/client/view/mxGraphView$SetTranslateCallback;)(dx, dy, oldJ);
+		};
+
+		@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).setTranslate = funct;
+	}-*/;
 
 	private mxGraphView() {
 	}
@@ -129,7 +163,7 @@ public class mxGraphView extends mxEventSource {
 	 * @return
 	 */
 	public native mxPoint getTranslate() /*-{
-		@com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getTranslate());
+		return @com.mxgraph.gwt.client.util.WrapperUtils::wrap(Lcom/google/gwt/core/client/JavaScriptObject;)(@com.mxgraph.gwt.client.util.WrapperUtils::unwrap(Lcom/mxgraph/gwt/client/IJavaScriptWrapper;)(this).getTranslate());
 	}-*/;
 
 	/**
