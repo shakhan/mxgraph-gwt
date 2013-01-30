@@ -1,4 +1,6 @@
-16-JAN-2012 1.10.3.1.2
+30-JAN-2012 1.10.3.1.5
+- Updated Composite Vertex example to take scale into account when limiting panning.
+16-JAN-2012 1.10.3.1.4
 - Added support for limiting the panning range.
 - Updated the Composite Vertex example with panning constraints.
 22-NOV-2012: 1.10.3.1.3
