@@ -45,6 +45,7 @@ public class CompositeVertexWidget extends AbstractContentWidget
 		
 		graph.getPanningHandler().setUseLeftButtonForPanning(true);
 		graph.setPanning(true);
+		graph.getView().setScale(3);
 
 		//limits the panning to 200px in each direction
 		graph.setPanGraphCallback(new PanGraphCallback()
@@ -53,8 +54,11 @@ public class CompositeVertexWidget extends AbstractContentWidget
 			public void invoke(int dx, int dy, PanGraphCallback callback)
 			{
 				mxPoint tr = graph.getView().getTranslate();
-				dx = Math.max(0, Math.min(200, dx + (int)tr.getX())) - (int)tr.getX();
-				dy = Math.max(0, Math.min(200, dy + (int)tr.getY())) - (int)tr.getY();
+				double scale = graph.getView().getScale();
+				double trX = tr.getX() * scale;
+				double trY = tr.getY() * scale;
+				dx = (int) (Math.max(0, Math.min(200 * scale, dx + (int)trX)) - (int)trX);
+				dy = (int) (Math.max(0, Math.min(200 * scale, dy + (int)trY)) - (int)trY);
 				
 				callback.invoke(dx, dy, null);
 			}
